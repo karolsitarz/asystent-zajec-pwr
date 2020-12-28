@@ -7,6 +7,9 @@ class Application(Tk):
         self.title("Covid")
         self.minsize(250, 350)
 
+        self.update()
+        self.geometry("300x500")
+
         LoginView(self)
 
         # self.create_menu()
@@ -19,9 +22,6 @@ class Application(Tk):
         # self.create_button()
         # self.create_list()
         # self.create_statusbar()
-
-        self.update()
-        self.geometry("300x500")
 
 
 if __name__ == '__main__':

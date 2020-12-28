@@ -18,8 +18,9 @@ class CourseData:
 
 
 class Course:
-    def __init__(self, code, course_type, lecturer):
+    def __init__(self, code, course_type, name, lecturer):
         self.__code = code
+        self.__name = name
         self.__course_type = course_type
         self.__lecturer = lecturer
         self.__data = []
@@ -27,6 +28,10 @@ class Course:
     @property
     def code(self):
         return self.__code
+
+    @property
+    def name(self):
+        return self.__name
 
     @property
     def type(self):

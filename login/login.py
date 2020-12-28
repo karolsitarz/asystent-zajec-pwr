@@ -1,60 +1,53 @@
+from http.cookiejar import CookieJar
 from tkinter import *
-from tkinter import messagebox, filedialog
-import os
-from includes.webbot.webbot import Browser
-
-CHROME_PATHS = [
-    r"%LOCALAPPDATA%\Google\Chrome\Application\chrome.exe",
-    r"C:\Program Files\Google\Chrome\Application\chrome.exe",
-    r"D:\Program Files\Google\Chrome\Application\chrome.exe",
-    r"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe",
-    r"D:\Program Files (x86)\Google\Chrome\Application\chrome.exe",
-]
+from tkinter import messagebox
+import mechanize as mechanize
+from bs4 import BeautifulSoup
 
 
-def jsos_login(parent, login, password):
-    paths = list(filter(lambda p: os.path.isfile(p), CHROME_PATHS))
+def jsos_login(username, password):
+    cj = CookieJar()
+    br = mechanize.Browser()
+    br.set_cookiejar(cj)
+    br.open("https://jsos.pwr.edu.pl/index.php/site/loginAsStudent")
 
-    def action_login(binary_location=None):
-        web = Browser(binary_location=binary_location)
-        web.go_to("https://jsos.pwr.edu.pl/index.php/site/loginAsStudent")
-        web.type(login, css_selector="#username")
-        web.type(password, css_selector="#password")
-        web.click(css_selector="#id2")
-        if web.get_current_url().startswith("https://jsos.pwr.edu.pl/index.php/student/indeksDane"):
-            web.go_to("https://jsos.pwr.edu.pl/index.php/student/zajecia")
-            elements = web.find_elements(css_selector=".dane-content .listaTable tbody tr")
-            print(web.get_page_source())
-        else:
-            errors = web.find_elements(css_selector=".message.error", number=1)
-            if len(errors) > 0:
-                messagebox.showerror("An error has occured", errors[0].text)
+    br.select_form(nr=0)
+    br.form["username"] = username
+    br.form["password"] = password
+    br.submit()
 
-        web.close_current_tab()
+    if br.geturl().endswith("/student/indeksDane"):
+        br.open("https://jsos.pwr.edu.pl/index.php/student/zajecia")
+        soup = BeautifulSoup(br.response().read(), "html.parser")
+        elements = soup.select('.dane-content .listaTable tbody tr')
+        if len(elements) == 0:
+            messagebox.showerror("Wystąpił błąd", "Coś poszło nie tak. Spróbuj ponownie później.")
 
-    for i in range(len(paths)):
-        try:
-            action_login(paths[i])
-            return
+        items = []
+        for element in elements:
+            data_el = element.select_one('td:nth-child(1)')
+            split = list(data_el.stripped_strings)
 
-        except Exception as e:
-            print(e)
+            course_type = split[0][-1]
+            name = split[1]
+            lecturer = element.select_one('td:nth-child(2)').string
+            code = element.select_one('td:nth-child(3)').string
+            items.append({
+                "course_type": course_type,
+                "name": name,
+                "lecturer": lecturer,
+                "code": code,
+            })
 
-    response = messagebox.askokcancel("Chrome not found!",
-                                      "chrome.exe was not found in the default location. Do you want to select \"chrome.exe\" by yourself?")
-    if response:
-        path = select_chrome(parent)
-        if path is not None:
-            try:
-                action_login(path)
+        print(items)
 
-            except Exception as e:
-                messagebox.showerror("An error has occured", "Chrome wasn't found.")
-                print(e)
+    else:
+        soup = BeautifulSoup(br.response().read(), "html.parser")
+        error_elem = soup.select_one('.message.error > span')
+        if len(error_elem) == 0:
+            messagebox.showerror("Wystąpił błąd", "Coś poszło nie tak. Spróbuj ponownie później.")
 
-
-def select_chrome(parent):
-    return filedialog.askopenfilename(parent=parent, title="Open Chrome executable...", filetypes=[("Chrome executable", "chrome.exe")])
+        messagebox.showerror("Wystąpił błąd", error_elem.string)
 
 
 class LoginView(Toplevel):
@@ -66,6 +59,7 @@ class LoginView(Toplevel):
         def create_layout():
             Label(self, text="Login").pack(side=TOP)
             self.field_login = Entry(self)
+            self.field_login.insert(0, "pwr308496")  # TODO: USED FOR DEBUGGING, DELETE LATER
             self.field_login.pack(side=TOP)
 
             Label(self, text="Password").pack(side=TOP)
@@ -74,7 +68,7 @@ class LoginView(Toplevel):
 
             self.button = Button(self, text="Zaloguj")
             self.button.pack(side=TOP)
-            self.button["command"] = lambda: jsos_login(self, self.field_login.get(), self.field_password.get())
+            self.button["command"] = lambda: jsos_login(self.field_login.get(), self.field_password.get())
 
             Label(self, text="Import an iCalendar file").pack(side=TOP)
             self.button_import = Button(self, text="Import")
