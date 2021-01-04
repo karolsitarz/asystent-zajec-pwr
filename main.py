@@ -1,6 +1,6 @@
 from tkinter import Tk
 
-from login.login import *
+from views.login import *
 
 
 class Application(Tk):
