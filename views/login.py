@@ -8,6 +8,8 @@ class LoginView(Toplevel):
         super().__init__(owner)
         self.title("Zaloguj do JSOS")
         self.minsize(200, 150)
+        self.owner = owner
+        self.is_submitting = False
 
         # START create layout
         parent = Frame(self)
@@ -28,14 +30,18 @@ class LoginView(Toplevel):
         # END create layout
 
         self.grab_set()
-        self.protocol("WM_DELETE_WINDOW", lambda: self.on_close(owner))
+        self.protocol("WM_DELETE_WINDOW", self.on_close)
 
-    def on_close(self, owner: Tk):
+    def on_close(self):
         if Repository.is_empty():
-            owner.destroy()
+            self.owner.destroy()
 
     def send_jsos_login(self):
+        if self.is_submitting:
+            return
+
         try:
+            self.is_submitting = True
             self.button["state"] = "disabled"
             self.update()
             (courses, events) = jsos_login(self.field_login.get(), self.field_password.get())
@@ -43,8 +49,11 @@ class LoginView(Toplevel):
             Repository.set_events(events)
             messagebox.showinfo("Dane pobrano pomyślnie", f"Pobrano {len(courses)} kursów i {len(events)} terminów")
             self.destroy()
+            self.owner.deiconify()
+            self.is_submitting = False
 
         except Exception as e:
             self.button["state"] = "active"
             self.update()
             messagebox.showerror("Wystąpił błąd", e)
+            self.is_submitting = False

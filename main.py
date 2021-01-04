@@ -12,7 +12,9 @@ class Application(Tk):
         self.update()
         self.geometry("300x500")
 
-        LoginView(self)
+        if Repository.is_empty():
+            self.withdraw()
+            LoginView(self)
 
         # self.create_menu()
         # self.create_toolbar()

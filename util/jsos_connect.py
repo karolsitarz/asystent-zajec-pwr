@@ -10,12 +10,16 @@ ICAL_LOCATION = "LOCATION:"
 ICAL_SUMMARY = "SUMMARY:"
 ICAL_END_VEVENT = "END:VEVENT"
 
+LOGIN_URL = "https://jsos.pwr.edu.pl/index.php/site/loginAsStudent"
+COURSES_URL = "https://jsos.pwr.edu.pl/index.php/student/zajecia"
+ICAL_URL = "https://jsos.pwr.edu.pl/index.php/student/zajecia/iCalendar"
+
 
 def jsos_login(username, password):
     cj = CookieJar()
     br = mechanize.Browser()
     br.set_cookiejar(cj)
-    br.open("https://jsos.pwr.edu.pl/index.php/site/loginAsStudent")
+    br.open(LOGIN_URL)
 
     br.select_form(nr=0)
     br.form["username"] = username
@@ -30,7 +34,7 @@ def jsos_login(username, password):
 
         raise Exception(error_elem.string)
 
-    br.open("https://jsos.pwr.edu.pl/index.php/student/zajecia")
+    br.open(COURSES_URL)
     soup = BeautifulSoup(br.response().read(), "html.parser")
     elements = soup.select(".dane-content .listaTable tbody tr")
     if len(elements) == 0:
@@ -47,7 +51,7 @@ def jsos_login(username, password):
         code = element.select_one("td:nth-child(3)").string
         courses.append(Course(code, course_type, name, lecturer))
 
-    br.open("https://jsos.pwr.edu.pl/index.php/student/zajecia/iCalendar")
+    br.open(ICAL_URL)
     decoded = br.response().read().decode("utf-8")
     lines: list[str] = decoded.splitlines()
 
