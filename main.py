@@ -1,9 +1,11 @@
-from tkinter import Tk
+from repository.data_repository import DataRepository
+from repository.view_repository import ViewRepository
+from util.constants.views import LOGIN, LOADING
+from view.loading import *
+from view.login import *
 
-from views.login import *
 
-
-class Application(Tk):
+class Application(Tk, Observer):
     def __init__(self, *args, **kwargs):
         Tk.__init__(self, *args, **kwargs)
         self.title("Covid")
@@ -12,22 +14,24 @@ class Application(Tk):
         self.update()
         self.geometry("300x500")
 
-        if Repository.is_empty():
-            self.withdraw()
-            LoginView(self)
+        self.__views = {
+            LOGIN: LoginView(self),
+            LOADING: LoadingView(self),
+        }
+        self.rowconfigure(0, weight=1)
+        self.columnconfigure(0, weight=1)
 
-        # self.create_menu()
-        # self.create_toolbar()
-        # self.create_location_options()
-        # self.create_length_field()
-        # self.create_type_options()
-        # self.create_month_options()
-        # self.create_day_options()
-        # self.create_button()
-        # self.create_list()
-        # self.create_statusbar()
+        view: Frame
+        for view in self.__views.values():
+            view.grid(row=0, column=0, sticky="news")
+
+        ViewRepository().add_observer(self)
+
+    def observe(self, data):
+        self.__views[data].tkraise()
 
 
 if __name__ == '__main__':
     root = Application()
+    DataRepository().load_data()
     root.mainloop()

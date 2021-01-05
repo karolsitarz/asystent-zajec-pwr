@@ -2,7 +2,8 @@ from http.cookiejar import CookieJar
 import mechanize as mechanize
 from bs4 import BeautifulSoup
 
-from model.repository import Event, Course
+from model.course import Course
+from model.event import Event
 
 ICAL_START = "DTSTART:"
 ICAL_END = "DTEND:"
