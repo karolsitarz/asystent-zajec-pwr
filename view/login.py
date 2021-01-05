@@ -1,11 +1,10 @@
 from tkinter import messagebox, Label, TOP, Entry, Button, Frame, Tk
 
-from util.classes.observer import Observer
 from util.classes.response import Response
 from viewmodel.login_viewmodel import LoginViewModel
 
 
-class LoginView(Frame, Observer):
+class LoginView(Frame):
     def __init__(self, root: Tk):
         super().__init__(root)
         self.__view_model = LoginViewModel()
@@ -26,22 +25,25 @@ class LoginView(Frame, Observer):
         self.button = Button(parent, text="Zaloguj", command=self.send_jsos_login)
         self.button.pack(side=TOP, pady=10)
         parent.pack(expand=1)
-        self.__view_model.add_observer(self)
+        self.setup_observers()
 
-    def observe(self, *data):
-        (response, title, body) = data
-        if response is Response.loading:
-            self.button["state"] = "disabled"
+    def setup_observers(self):
+        def observe_status(data):
+            (response, title, body) = data
+            if response is Response.loading:
+                self.button["state"] = "disabled"
+                self.update()
+                return
+
+            if response is Response.error:
+                messagebox.showerror(title, body)
+            else:
+                messagebox.showinfo(title, body)
+
+            self.button["state"] = "active"
             self.update()
-            return
 
-        if response is Response.error:
-            messagebox.showerror(title, body)
-        else:
-            messagebox.showinfo(title, body)
-
-        self.button["state"] = "active"
-        self.update()
+        self.__view_model.status.observe(observe_status)
 
     def send_jsos_login(self):
         self.__view_model.jsos_login(self.field_login.get(), self.field_password.get())

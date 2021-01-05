@@ -5,7 +5,7 @@ from view.loading import *
 from view.login import *
 
 
-class Application(Tk, Observer):
+class Application(Tk):
     def __init__(self, *args, **kwargs):
         Tk.__init__(self, *args, **kwargs)
         self.title("Covid")
@@ -25,10 +25,13 @@ class Application(Tk, Observer):
         for view in self.__views.values():
             view.grid(row=0, column=0, sticky="news")
 
-        ViewRepository().add_observer(self)
+        self.setup_observers()
 
-    def observe(self, data):
-        self.__views[data].tkraise()
+    def setup_observers(self):
+        def observe_active_view(name: str):
+            self.__views[name].tkraise()
+
+        ViewRepository().active_view.observe(observe_active_view)
 
 
 if __name__ == '__main__':

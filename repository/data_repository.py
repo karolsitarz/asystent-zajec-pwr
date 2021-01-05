@@ -1,25 +1,26 @@
 from model.course import Course
 from model.event import Event
 from repository.view_repository import ViewRepository
-from util.classes.emitter import Emitter
+from util.classes.observable import Observable
 from util.classes.singleton import Singleton
 from util.constants.views import LOGIN
 
 
-class DataRepository(Emitter, metaclass=Singleton):
+class DataRepository(metaclass=Singleton):
     def __init__(self):
         super().__init__()
-        self.__courses: list[Course] = []
-        self.__events: list[Event] = []
+        self.courses: Observable[list[Course]] = Observable([])
+        self.events: Observable[list[Event]] = Observable([])
 
     def is_empty(self):
-        return len(self.__courses) == 0 or len(self.__events) == 0
+        return len(self.courses.value) == 0 or len(self.events.value) == 0
 
-    def set_data(self, courses: list[Course], events: list[Event]):
-        self.__courses = courses
-        self.__events = events
-        self.emit(courses, events)
+    def set_events(self, events: list[Event]):
+        self.events.value = events
+
+    def set_courses(self, courses: list[Course]):
+        self.courses.value = courses
 
     def load_data(self):
         if DataRepository().is_empty():
-            ViewRepository().set_view(LOGIN)
+            ViewRepository().active_view.value = LOGIN

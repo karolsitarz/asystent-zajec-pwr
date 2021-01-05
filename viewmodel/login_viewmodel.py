@@ -1,28 +1,35 @@
+from typing import Tuple
+
 from repository.data_repository import DataRepository
-from util.classes.emitter import Emitter
+from repository.view_repository import ViewRepository
+from util.classes.observable import Observable
 from util.classes.response import Response
+from util.constants.views import LOADING
 from util.methods.jsos_connect import jsos_login
 
 
-class LoginViewModel(Emitter):
+class LoginViewModel:
     def __init__(self):
         super().__init__()
         self.__is_submitting = False
+        self.status: Observable[Tuple[Response, str, str]] = Observable()
 
     def jsos_login(self, username: str, password: str):
         if self.__is_submitting:
             return
 
-        self.emit(Response.loading, None, None)
+        self.status.value = (Response.loading, None, None)
 
         try:
             self.__is_submitting = True
             (courses, events) = jsos_login(username, password)
-            DataRepository().set_data(courses, events)
-            self.emit(Response.success, "Dane pobrano pomyślnie", f"Pobrano {len(courses)} kursów i {len(events)} terminów")
+            DataRepository().set_events(events)
+            DataRepository().set_courses(courses)
+            self.status.value = (Response.success, "Dane pobrano pomyślnie", f"Pobrano {len(courses)} kursów i {len(events)} terminów")
+            ViewRepository().active_view.value = LOADING
 
         except Exception as e:
-            self.emit(Response.error, "Wystąpił błąd", e)
+            self.status.value = (Response.error, "Wystąpił błąd", e)
 
         finally:
             self.__is_submitting = False
