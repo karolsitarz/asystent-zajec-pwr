@@ -1,4 +1,8 @@
+from datetime import datetime
 from http.cookiejar import CookieJar
+from typing import Optional
+from zoneinfo import ZoneInfo
+
 import mechanize as mechanize
 from bs4 import BeautifulSoup
 
@@ -57,31 +61,35 @@ def jsos_login(username, password):
     lines: list[str] = decoded.splitlines()
 
     events: list[Event] = []
-    start = None
-    end = None
-    location = None
-    code = None
+    start: Optional[datetime] = None
+    end: Optional[datetime] = None
+    location: Optional[str] = None
+    course: Optional[Course] = None
     for line in lines:
         if line.startswith(ICAL_START):
-            start = line[len(ICAL_START):]
+            start = parse_to_datetime(line[len(ICAL_START):])
         elif line.startswith(ICAL_END):
-            end = line[len(ICAL_END):]
+            end = parse_to_datetime(line[len(ICAL_END):])
         elif line.startswith(ICAL_LOCATION):
             location = line[len(ICAL_LOCATION):]
         elif line.startswith(ICAL_SUMMARY):
             description = line[len(ICAL_SUMMARY):]
             course_type = description[0]
             name = description[2:]
-            course = next((c for c in courses if Course.predicate(c, course_type, name)), None)
-            if course is not None:
-                code = course.code
+            found_course = next((c for c in courses if Course.predicate(c, course_type, name)), None)
+            if found_course is not None:
+                course = found_course
         elif line == ICAL_END_VEVENT:
-            if code is not None:
-                events.append(Event(start, end, location, code))
+            if course is not None:
+                events.append(Event(start, end, location, course))
 
             start = None
             end = None
             location = None
-            code = None
+            course = None
 
     return courses, events
+
+
+def parse_to_datetime(value: str):
+    return datetime.strptime(value[:15], "%Y%m%dT%H%M%S").replace(tzinfo=ZoneInfo('UTC')).astimezone()

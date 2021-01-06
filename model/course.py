@@ -8,6 +8,7 @@ class Course:
         self.__course_type = course_type
         self.__lecturer = lecturer
         self.__data: list[CourseData] = []
+        self.__is_hidden: bool = False
 
     @property
     def code(self):
@@ -24,6 +25,14 @@ class Course:
     @property
     def lecturer(self):
         return self.__lecturer
+
+    @property
+    def is_hidden(self):
+        return self.__is_hidden
+
+    @is_hidden.setter
+    def is_hidden(self, value):
+        self.__is_hidden = value
 
     def add_info(self, name: str, value: str, is_url: bool):
         self.__data.append(CourseData(name, value, is_url))

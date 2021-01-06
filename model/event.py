@@ -1,14 +1,18 @@
+from datetime import datetime
+
+from model.course import Course
+
 
 class Event:
-    def __init__(self, start: str, end: str, location: str, code: str):
-        self.__code = code
+    def __init__(self, start: datetime, end: datetime, location: str, course: Course):
+        self.__course = course
         self.__location = location
         self.__start = start
         self.__end = end
 
     @property
-    def code(self):
-        return self.__code
+    def course(self):
+        return self.__course
 
     @property
     def location(self):
