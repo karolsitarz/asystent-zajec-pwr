@@ -6,6 +6,7 @@ from util.classes.observable import Observable
 from util.classes.response import Response
 from util.constants.views import LOADING
 from util.methods.jsos_connect import jsos_login
+from util.methods.local_data import save_data
 
 
 class LoginViewModel:
@@ -23,8 +24,10 @@ class LoginViewModel:
         try:
             self.__is_submitting = True
             (courses, events) = jsos_login(username, password)
-            DataRepository().set_events(events)
-            DataRepository().set_courses(courses)
+            data_repository = DataRepository()
+            data_repository.set_events(events)
+            data_repository.set_courses(courses)
+            save_data()
             self.status.value = (Response.success, "Dane pobrano pomyślnie", f"Pobrano {len(courses)} kursów i {len(events)} terminów")
             ViewRepository().active_view.value = LOADING
 

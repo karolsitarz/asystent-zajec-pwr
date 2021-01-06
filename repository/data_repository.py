@@ -1,9 +1,7 @@
 from model.course import Course
 from model.event import Event
-from repository.view_repository import ViewRepository
 from util.classes.observable import Observable
 from util.classes.singleton import Singleton
-from util.constants.views import LOGIN
 
 
 class DataRepository(metaclass=Singleton):
@@ -20,7 +18,3 @@ class DataRepository(metaclass=Singleton):
 
     def set_courses(self, courses: list[Course]):
         self.courses.value = courses
-
-    def load_data(self):
-        if DataRepository().is_empty():
-            ViewRepository().active_view.value = LOGIN

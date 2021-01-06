@@ -1,10 +1,9 @@
-from datetime import datetime
-
 from model.course import Course
+from util.classes.datetime_epoch import DatetimeEpoch
 
 
 class Event:
-    def __init__(self, start: datetime, end: datetime, location: str, course: Course):
+    def __init__(self, start: DatetimeEpoch, end: DatetimeEpoch, location: str, course: Course):
         self.__course = course
         self.__location = location
         self.__start = start
@@ -25,3 +24,19 @@ class Event:
     @property
     def end(self):
         return self.__end
+
+    def to_dict(self):
+        return {
+            "course": self.__course.code,
+            "location": self.__location,
+            "start": self.__start.epoch,
+            "end": self.__end.epoch,
+        }
+
+    @classmethod
+    def from_dict(cls, data, course_list: list[Course]):
+        course = next((c for c in course_list if c.code == data["course"]), None)
+        start = DatetimeEpoch(data["start"])
+        end = DatetimeEpoch(data["end"])
+        obj = Event(start, end, data["location"], course)
+        return obj

@@ -8,6 +8,7 @@ from bs4 import BeautifulSoup
 
 from model.course import Course
 from model.event import Event
+from util.classes.datetime_epoch import DatetimeEpoch
 
 ICAL_START = "DTSTART:"
 ICAL_END = "DTEND:"
@@ -61,15 +62,15 @@ def jsos_login(username, password):
     lines: list[str] = decoded.splitlines()
 
     events: list[Event] = []
-    start: Optional[datetime] = None
-    end: Optional[datetime] = None
+    start: Optional[DatetimeEpoch] = None
+    end: Optional[DatetimeEpoch] = None
     location: Optional[str] = None
     course: Optional[Course] = None
     for line in lines:
         if line.startswith(ICAL_START):
-            start = parse_to_datetime(line[len(ICAL_START):])
+            start = DatetimeEpoch.from_ical(line[len(ICAL_START):])
         elif line.startswith(ICAL_END):
-            end = parse_to_datetime(line[len(ICAL_END):])
+            end = DatetimeEpoch.from_ical(line[len(ICAL_END):])
         elif line.startswith(ICAL_LOCATION):
             location = line[len(ICAL_LOCATION):]
         elif line.startswith(ICAL_SUMMARY):
@@ -89,7 +90,3 @@ def jsos_login(username, password):
             course = None
 
     return courses, events
-
-
-def parse_to_datetime(value: str):
-    return datetime.strptime(value[:15], "%Y%m%dT%H%M%S").replace(tzinfo=ZoneInfo('UTC')).astimezone()

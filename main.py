@@ -1,6 +1,7 @@
 from repository.data_repository import DataRepository
 from repository.view_repository import ViewRepository
 from util.constants.views import LOGIN, LOADING
+from util.methods.local_data import load_data
 from view.loading import *
 from view.login import *
 
@@ -36,5 +37,10 @@ class Application(Tk):
 
 if __name__ == '__main__':
     root = Application()
-    DataRepository().load_data()
+
+    data_repository = DataRepository()
+    load_data()
+    if data_repository.is_empty():
+        ViewRepository().active_view.value = LOGIN
+
     root.mainloop()
