@@ -4,7 +4,7 @@ from repository.data_repository import DataRepository
 from repository.view_repository import ViewRepository
 from util.classes.observable import Observable
 from util.classes.response import Response
-from util.constants.views import LOADING
+from util.constants.views import EVENTS
 from util.methods.jsos_connect import jsos_login
 from util.methods.local_data import save_data
 
@@ -29,7 +29,7 @@ class LoginViewModel:
             data_repository.set_courses(courses)
             save_data()
             self.status.value = (Response.success, "Dane pobrano pomyślnie", f"Pobrano {len(courses)} kursów i {len(events)} terminów")
-            ViewRepository().active_view.value = LOADING
+            ViewRepository().active_view.value = EVENTS
 
         except Exception as e:
             self.status.value = (Response.error, "Wystąpił błąd", e)
