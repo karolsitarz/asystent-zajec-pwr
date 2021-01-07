@@ -5,7 +5,7 @@ from util.constants.views import ViewName
 
 
 class FrameView(Frame):
-    def __init__(self, root: Tk, name: ViewName):
+    def __init__(self, root, name: ViewName):
         super().__init__(root)
         self.grid(row=0, column=0, sticky="news")
 
