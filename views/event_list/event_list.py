@@ -32,7 +32,7 @@ class EventListView(FrameView):
             for (is_before, event) in data:
                 on_click = self.view_model.on_event_selected(event)
                 item = EventListItem(self.parent, event, is_before, on_click)
-                item.pack(fill="x", expand=True, pady=10, padx=5)
+                item.pack(fill="x", expand=True, pady=10, padx=10)
 
         self.view_model.events.observe(observe_events)
 
