@@ -1,11 +1,10 @@
 from typing import Tuple
 
-from repository.data_repository import DataRepository
-from repository.view_repository import ViewRepository
-from util.classes.observable import Observable
-from util.classes.response import Response
-from util.constants.views import EVENTS
-from util.methods.jsos_connect import jsos_login
+from model.logic.observable import Observable
+from model.logic.response import Response
+from model.repository import Repository
+from util.constants.views import ViewName
+from views.login.jsos_connect import jsos_login
 from util.methods.local_data import save_data
 
 
@@ -24,12 +23,11 @@ class LoginViewModel:
         try:
             self.__is_submitting = True
             (courses, events) = jsos_login(username, password)
-            data_repository = DataRepository()
-            data_repository.set_events(events)
-            data_repository.set_courses(courses)
+            Repository.events.value = events
+            Repository.courses.value = courses
             save_data()
             self.status.value = (Response.success, "Dane pobrano pomyślnie", f"Pobrano {len(courses)} kursów i {len(events)} terminów")
-            ViewRepository().active_view.value = EVENTS
+            Repository.active_view.value = ViewName.EVENTS
 
         except Exception as e:
             self.status.value = (Response.error, "Wystąpił błąd", e)

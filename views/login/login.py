@@ -1,12 +1,14 @@
 from tkinter import messagebox, Label, TOP, Entry, Button, Frame, Tk
 
-from util.classes.response import Response
-from viewmodel.login_viewmodel import LoginViewModel
+from model.logic.response import Response
+from util.constants.views import ViewName
+from views.frame_view import FrameView
+from views.login.login_viewmodel import LoginViewModel
 
 
-class LoginView(Frame):
+class LoginView(FrameView):
     def __init__(self, root: Tk):
-        super().__init__(root)
+        super().__init__(root, ViewName.LOGIN)
         self.__view_model = LoginViewModel()
 
         # START create layout

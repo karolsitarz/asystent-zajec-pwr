@@ -1,12 +1,12 @@
-from tkinter import Tk, Frame
+from tkinter import Tk
 
-from repository.data_repository import DataRepository
-from repository.view_repository import ViewRepository
-from util.constants.views import LOGIN, LOADING, EVENTS
+from model.repository import Repository
+from util.constants.views import ViewName
 from util.methods.local_data import load_data
-from view.events import EventsView
-from view.loading import LoadingView
-from view.login import LoginView
+from views.event_list.event_list import EventListView
+from views.loading.loading import LoadingView
+from views.login.login import LoginView
+from views.single_event.single_event import SingleEventView
 
 
 class Application(Tk):
@@ -18,32 +18,21 @@ class Application(Tk):
         self.update()
         self.geometry("300x500")
 
-        self.__views = {
-            EVENTS: EventsView(self),
-            LOGIN: LoginView(self),
-            LOADING: LoadingView(self),
-        }
         self.rowconfigure(0, weight=1)
         self.columnconfigure(0, weight=1)
 
-        view: Frame
-        for view in self.__views.values():
-            view.grid(row=0, column=0, sticky="news")
-
-        self.setup_observers()
-
-    def setup_observers(self):
-        def observe_active_view(name: str):
-            self.__views[name].tkraise()
-
-        ViewRepository().active_view.observe(observe_active_view)
+        # init views
+        SingleEventView(self)
+        EventListView(self)
+        LoginView(self)
+        LoadingView(self)
 
 
 if __name__ == '__main__':
     root = Application()
 
-    data_repository = DataRepository()
     load_data()
-    ViewRepository().active_view.value = LOGIN if data_repository.is_empty() else EVENTS
+    is_empty = len(Repository.events.value) == 0 or len(Repository.courses.value) == 0
+    Repository.active_view.value = ViewName.LOGIN if is_empty else ViewName.EVENT_LIST
 
     root.mainloop()

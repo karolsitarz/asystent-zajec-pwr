@@ -1,5 +1,5 @@
-from model.course import Course
-from util.classes.datetime_epoch import DatetimeEpoch
+from model.data.course import Course
+from model.logic.datetime_epoch import DatetimeEpoch
 
 
 class Event:

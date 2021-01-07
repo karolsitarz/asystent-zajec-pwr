@@ -1,4 +1,4 @@
-from model.course_data import CourseData
+from model.data.course_data import CourseData
 
 
 class Course:

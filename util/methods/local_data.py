@@ -1,9 +1,9 @@
 import json
 import os
 
-from model.course import Course
-from model.event import Event
-from repository.data_repository import DataRepository
+from model.data.course import Course
+from model.data.event import Event
+from model.repository import Repository
 
 DATA_PATH = "data.json"
 
@@ -18,17 +18,15 @@ def load_data():
             courses = [Course.from_dict(data) for data in parsed_courses]
             events = [Event.from_dict(data, courses) for data in parsed_events]
 
-            data_repository = DataRepository()
-            data_repository.courses.value = courses
-            data_repository.events.value = events
+            Repository.courses.value = courses
+            Repository.events.value = events
 
     except Exception as e:
         print(e)
 
 
 def save_data():
-    data_repository = DataRepository()
-    parsed_courses = [c.to_dict() for c in data_repository.courses.value]
-    parsed_events = [e.to_dict() for e in data_repository.events.value]
+    parsed_courses = [c.to_dict() for c in Repository.courses.value]
+    parsed_events = [e.to_dict() for e in Repository.events.value]
     with open(DATA_PATH, "w") as out:
         json.dump((parsed_courses, parsed_events), out)

@@ -1,14 +1,12 @@
-from datetime import datetime
 from http.cookiejar import CookieJar
 from typing import Optional
-from zoneinfo import ZoneInfo
 
 import mechanize as mechanize
 from bs4 import BeautifulSoup
 
-from model.course import Course
-from model.event import Event
-from util.classes.datetime_epoch import DatetimeEpoch
+from model.data.course import Course
+from model.data.event import Event
+from model.logic.datetime_epoch import DatetimeEpoch
 
 ICAL_START = "DTSTART:"
 ICAL_END = "DTEND:"
