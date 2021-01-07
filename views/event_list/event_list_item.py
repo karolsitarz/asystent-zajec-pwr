@@ -9,7 +9,7 @@ class EventListItem(Frame):
         color = "gray" if is_before else None
 
         Label(self, text=event.start.humanize(), anchor="w", fg=color).pack(fill="x", expand=True)
-        label = Label(self, text=event.course.name, anchor="w", font="Arial 10 bold", cursor="hand2", fg=color)
+        label = Label(self, text=f"{event.course.type} {event.course.name}", anchor="w", font="Arial 10 bold", cursor="hand2", fg=color)
         label.pack(fill="x", expand=True)
 
         def on_enter(_):

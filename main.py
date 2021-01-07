@@ -3,6 +3,7 @@ from tkinter import Tk
 from model.repository import Repository
 from util.constants.views import ViewName
 from util.methods.local_data import load_data
+from views.course_list.course_list import CourseListView
 from views.event_list.event_list import EventListView
 from views.loading.loading import LoadingView
 from views.login.login import LoginView
@@ -25,6 +26,7 @@ class Application(Tk):
         SingleEventView(self)
         EventListView(self)
         LoginView(self)
+        CourseListView(self)
         LoadingView(self)
 
 

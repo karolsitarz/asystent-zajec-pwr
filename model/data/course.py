@@ -30,9 +30,8 @@ class Course:
     def is_hidden(self):
         return self.__is_hidden
 
-    @is_hidden.setter
-    def is_hidden(self, value):
-        self.__is_hidden = value
+    def toggle_hidden(self):
+        self.__is_hidden = not self.__is_hidden
 
     def add_info(self, name: str, value: str, is_url: bool):
         self.__data.append(CourseData(name, value, is_url))

@@ -11,6 +11,8 @@ class SingleEventView(ScrollableFrameView):
         super().__init__(root, ViewName.SINGLE_EVENT)
         self.view_model = SingleEventViewModel()
 
+        Button(self.toolbar, text="go back", command=self.view_model.go_back).pack(side="left")
+
         self.setup_observers()
 
     def setup_observers(self):
@@ -22,7 +24,6 @@ class SingleEventView(ScrollableFrameView):
                 return
 
             container = Frame(self)
-            Button(container, text="go back", command=self.view_model.go_back).pack()
             Label(container, text=event.course.code, anchor="w").pack(fill="x", expand=True)
             Label(container, text=event.course.name, anchor="w", font="Arial 12 bold").pack(fill="x", expand=True)
             Label(container, text=event.start.__str__(), anchor="w", font="Arial 11").pack(fill="x", expand=True)

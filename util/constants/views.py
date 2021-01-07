@@ -6,3 +6,4 @@ class ViewName(Enum):
     LOGIN = auto()
     EVENT_LIST = auto()
     SINGLE_EVENT = auto()
+    COURSE_LIST = auto()

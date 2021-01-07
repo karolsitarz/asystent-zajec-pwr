@@ -1,8 +1,3 @@
-from datetime import datetime
-from typing import Optional
-
-from model.data.event import Event
-from model.logic.observable import Observable
 from model.repository import Repository
 from util.constants.views import ViewName
 

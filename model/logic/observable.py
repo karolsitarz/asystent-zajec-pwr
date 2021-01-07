@@ -18,5 +18,8 @@ class Observable(Generic[T]):
     @value.setter
     def value(self, value: T):
         self.__value = value
+        self.emit()
+
+    def emit(self):
         for callback in self.__observers:
-            callback(value)
+            callback(self.__value)
