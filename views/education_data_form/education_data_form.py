@@ -1,4 +1,4 @@
-from tkinter import Label, Entry, Button, Frame, Tk, Text, END
+from tkinter import Label, Entry, Button, Frame, Tk, Text, END, WORD
 from tkinter.ttk import Checkbutton
 from typing import Optional, Tuple, Union
 
@@ -37,7 +37,7 @@ class EducationDataFormView(FrameView):
 
         container_value = Frame(parent)
         Label(container_value, text="Zawartość").pack()
-        self.field_value = Text(container_value, height=5)
+        self.field_value = Text(container_value, height=5, wrap=WORD)
         self.field_value.pack(pady=2, fill="x")
         container_value.pack(pady=10, padx=20, fill="x")
 

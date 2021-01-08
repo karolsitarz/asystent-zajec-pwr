@@ -30,4 +30,7 @@ class EventListView(ScrollableFrameView):
                 on_click = self.view_model.on_event_selected(event)
                 EventListItem(self, event, is_before, on_click)
 
+            self.canvas.update_idletasks()
+            self.canvas.yview_moveto('0.0')
+
         self.view_model.events.observe(observe_events)

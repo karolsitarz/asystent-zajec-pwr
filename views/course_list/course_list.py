@@ -1,7 +1,8 @@
-from tkinter import Frame, Tk, Label, Button
+from tkinter import Tk, Button
 
 from model.data.course import Course
 from util.constants.views import ViewName
+from views.course_list.course_list_item import CourseListItem
 from views.course_list.course_list_viewmodel import CourseListViewModel
 from views.scrollable_frame_view import ScrollableFrameView
 
@@ -22,10 +23,7 @@ class CourseListView(ScrollableFrameView):
                 child.destroy()
 
             for course in courses:
-                item = Frame(self)
-                Label(item, text=f"{course.type} {course.name}", anchor="w").pack(side="left")
-                Button(item, text="hidden" if course.is_hidden else "visible", command=self.view_model.toggle_course_visibility(course)).pack(side="right")
-                item.pack(fill="x", expand=True, pady=10, padx=10)
+                CourseListItem(self, course, self.view_model.toggle_course_visibility(course))
 
             self.canvas.update_idletasks()
             self.canvas.yview_moveto(top)
