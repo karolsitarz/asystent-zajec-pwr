@@ -96,7 +96,7 @@ class EducationDataFormView(FrameView):
             self.field_name.delete(0, END)
             self.field_name.insert(0, education_data.name)
             self.field_value.delete('1.0', END)
-            self.field_value.insert(0, education_data.value)
+            self.field_value.insert('1.0', education_data.value)
             self.field_is_url.state(['selected'] if education_data.is_url else ['!selected'])
 
         self.view_model.selected.observe(observe_selected_education_data)
@@ -119,5 +119,6 @@ class EducationDataFormView(FrameView):
             self.clear_fields()
 
     def clear_fields(self):
+        self.view_model.errors.value = []
         self.field_name.delete(0, END)
         self.field_value.delete('1.0', END)

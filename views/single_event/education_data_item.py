@@ -1,17 +1,20 @@
 import webbrowser
-from tkinter import Frame, Label, Text, WORD, DISABLED
+from tkinter import Frame, Label, Text, WORD, Button
 
 from model.data.education_data import EducationData
 
 
 class EducationDataItem(Frame):
-    def __init__(self, parent, data: EducationData, **kw):
+    def __init__(self, parent, data: EducationData, on_button, **kw):
         super().__init__(parent, **kw)
         bg = "white"
         fg = "blue" if data.is_url else None
 
-        label = Label(self, text=data.name, anchor="w", font="Arial 10 bold", bg=bg, fg=fg)
-        label.pack(fill="x", expand=True)
+        header = Frame(self, bg=bg)
+        label = Label(header, text=data.name, anchor="w", font="Arial 10 bold", bg=bg, fg=fg)
+        label.pack(fill="x", expand=True, side="left")
+        Button(header, text="e", command=on_button).pack(side="right")
+        header.pack(fill="x")
 
         self.pack(fill="x", pady=2)
         self["highlightbackground"] = "lightgray"
@@ -24,7 +27,7 @@ class EducationDataItem(Frame):
                 content = Text(self, height=5, wrap=WORD, border=0)
                 content.insert('1.0', data.value)
                 content.configure(state="disabled")
-                content.pack(fill="x", expand=True)
+                content.pack(fill="x", expand=True, padx=2, side="top")
         else:
             def on_enter(_):
                 label["font"] = "Arial 10 bold underline"

@@ -34,7 +34,7 @@ class SingleEventView(ScrollableFrameView):
 
             event_data_header = Frame(self)
             Label(event_data_header, text="Dane zajęć", anchor="w", font="Arial 11").pack(side="left")
-            Button(event_data_header, text="+", command=lambda: self.view_model.add_education_data(event, False)).pack(side="right")
+            Button(event_data_header, text="+", command=self.view_model.add_education_data(event, False)).pack(side="right")
             event_data_header.pack(fill="both", expand=True, padx=10)
 
             event_data = Frame(self)
@@ -42,12 +42,12 @@ class SingleEventView(ScrollableFrameView):
                 Label(event_data, text="Zajęcia nie posiadają danych", font="Arial 9", fg="gray").pack(fill="x", expand=True, pady=5)
 
             for data in event.data:
-                EducationDataItem(event_data, data)
+                EducationDataItem(event_data, data, self.view_model.edit_education_data(event, data, False))
             event_data.pack(fill="both", expand=True, pady=5, padx=10)
 
             course_data_header = Frame(self)
             Label(course_data_header, text="Dane kursu", anchor="w", font="Arial 11").pack(side="left")
-            Button(course_data_header, text="+", command=lambda: self.view_model.add_education_data(event.course, True)).pack(side="right")
+            Button(course_data_header, text="+", command=self.view_model.add_education_data(event.course, is_course=True)).pack(side="right")
             course_data_header.pack(fill="both", expand=True, padx=10)
 
             course_data = Frame(self)
@@ -55,7 +55,7 @@ class SingleEventView(ScrollableFrameView):
                 Label(course_data, text="Kurs nie posiada danych", font="Arial 9", fg="gray").pack(fill="x", expand=True, pady=5)
 
             for data in event.course.data:
-                EducationDataItem(course_data, data)
+                EducationDataItem(course_data, data, self.view_model.edit_education_data(event.course, data, is_course=True))
             course_data.pack(fill="both", expand=True, pady=5, padx=10)
 
         self.view_model.event.observe(observe_event)
