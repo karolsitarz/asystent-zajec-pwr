@@ -49,5 +49,11 @@ class EducationDataViewModel:
         Repository.active_view.value = ViewName.SINGLE_EVENT
         return True
 
-    def action_delete(self) -> bool:
-        return True
+    def action_delete(self):
+        source: Union[Course, Event]
+        education_data: Optional[EducationData]
+        (source, education_data, _) = self.selected.value
+        source.delete_data(education_data)
+
+        Repository.selected_event.emit()
+        Repository.active_view.value = ViewName.SINGLE_EVENT

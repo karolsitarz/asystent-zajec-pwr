@@ -1,4 +1,4 @@
-from tkinter import Label, Entry, Button, Frame, Tk, Text, END, WORD
+from tkinter import Label, Entry, Button, Frame, Tk, Text, END, WORD, messagebox
 from tkinter.ttk import Checkbutton
 from typing import Optional, Tuple, Union
 
@@ -114,9 +114,11 @@ class EducationDataFormView(FrameView):
         self.clear_fields()
 
     def delete_form(self):
-        is_success = self.view_model.action_delete()
-        if is_success:
-            self.clear_fields()
+        response = messagebox.askyesno("Potwierdzenie", "Czy na pewno chcesz usunąć notatkę w kursie?")
+        if not response:
+            return
+        self.view_model.action_delete()
+        self.clear_fields()
 
     def clear_fields(self):
         self.view_model.errors.value = []
