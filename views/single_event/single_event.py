@@ -3,6 +3,7 @@ from tkinter import Frame, Tk, Label, Button
 from model.data.event import Event
 from util.constants.views import ViewName
 from views.scrollable_frame_view import ScrollableFrameView
+from views.single_event.education_data_item import EducationDataItem
 from views.single_event.single_event_viewmodel import SingleEventViewModel
 
 
@@ -30,5 +31,31 @@ class SingleEventView(ScrollableFrameView):
             Label(container, text=event.course.lecturer, anchor="w").pack(fill="x", expand=True)
             Label(container, text=event.location, anchor="w").pack(fill="x", expand=True)
             container.pack(fill="both", expand=True, pady=10, padx=10)
+
+            event_data_header = Frame(self)
+            Label(event_data_header, text="Dane zajęć", anchor="w", font="Arial 11").pack(side="left")
+            Button(event_data_header, text="+", command=lambda: print(":D")).pack(side="right")
+            event_data_header.pack(fill="both", expand=True, pady=5, padx=10)
+
+            event_data = Frame(self)
+            if len(event.data) == 0:
+                Label(event_data, text="Zajęcia nie posiadają danych", font="Arial 9", fg="gray").pack(fill="x", expand=True, pady=5)
+
+            for data in event.data:
+                EducationDataItem(event_data, data)
+            event_data.pack(fill="both", expand=True, pady=10, padx=10)
+
+            course_data_header = Frame(self)
+            Label(course_data_header, text="Dane kursu", anchor="w", font="Arial 11").pack(side="left")
+            Button(course_data_header, text="+", command=lambda: print(":D")).pack(side="right")
+            course_data_header.pack(fill="both", expand=True, pady=5, padx=10)
+
+            course_data = Frame(self)
+            if len(event.course.data) == 0:
+                Label(course_data, text="Kurs nie posiada danych", font="Arial 9", fg="gray").pack(fill="x", expand=True, pady=5)
+
+            for data in event.course.data:
+                EducationDataItem(course_data, data)
+            course_data.pack(fill="both", expand=True, pady=10, padx=10)
 
         self.view_model.event.observe(observe_event)

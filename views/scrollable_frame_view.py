@@ -11,7 +11,7 @@ class ScrollableFrameView(FrameView):
         self.container.grid(row=0, column=0, sticky="news")
 
         self.toolbar = Frame(self.container)
-        self.toolbar.pack(fill="x")
+        self.toolbar.pack(fill="x", pady=5, padx=5)
 
         self.canvas = Canvas(self.container)
         super().__init__(self.canvas, name)

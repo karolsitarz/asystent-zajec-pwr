@@ -1,5 +1,6 @@
 import json
 import os
+import traceback
 
 from model.data.course import Course
 from model.data.event import Event
@@ -23,6 +24,7 @@ def load_data():
 
     except Exception as e:
         print(e)
+        traceback.print_exc()
 
 
 def save_data():

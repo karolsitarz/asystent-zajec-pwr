@@ -1,9 +1,11 @@
 from model.data.course import Course
+from model.data.education_data import EducationDataContainer, EducationData
 from model.logic.datetime_epoch import DatetimeEpoch
 
 
-class Event:
+class Event(EducationDataContainer):
     def __init__(self, start: DatetimeEpoch, end: DatetimeEpoch, location: str, course: Course):
+        super().__init__()
         self.__course = course
         self.__location = location
         self.__start = start
@@ -31,6 +33,7 @@ class Event:
             "location": self.__location,
             "start": self.__start.epoch,
             "end": self.__end.epoch,
+            "data": self.list_to_json(),
         }
 
     @classmethod
@@ -39,4 +42,5 @@ class Event:
         start = DatetimeEpoch(data["start"])
         end = DatetimeEpoch(data["end"])
         obj = Event(start, end, data["location"], course)
+        obj.list_from_json(data["data"])
         return obj

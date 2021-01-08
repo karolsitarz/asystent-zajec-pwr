@@ -1,3 +1,4 @@
+import traceback
 from typing import Tuple
 
 from model.logic.observable import Observable
@@ -27,10 +28,11 @@ class LoginViewModel:
             Repository.courses.value = courses
             save_data()
             self.status.value = (Response.success, "Dane pobrano pomyślnie", f"Pobrano {len(courses)} kursów i {len(events)} terminów")
-            Repository.active_view.value = ViewName.EVENTS
+            Repository.active_view.value = ViewName.EVENT_LIST
 
         except Exception as e:
             self.status.value = (Response.error, "Wystąpił błąd", e)
+            traceback.print_exc()
 
         finally:
             self.__is_submitting = False
