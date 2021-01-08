@@ -17,14 +17,17 @@ class CourseListView(ScrollableFrameView):
 
     def setup_observers(self):
         def observe_event(courses: list[Course]):
+            (top, _) = self.canvas.yview()
             for child in self.winfo_children():
                 child.destroy()
 
             for course in courses:
-
                 item = Frame(self)
                 Label(item, text=f"{course.type} {course.name}", anchor="w").pack(side="left")
                 Button(item, text="hidden" if course.is_hidden else "visible", command=self.view_model.toggle_course_visibility(course)).pack(side="right")
                 item.pack(fill="x", expand=True, pady=10, padx=10)
+
+            self.canvas.update_idletasks()
+            self.canvas.yview_moveto(top)
 
         self.view_model.courses.observe(observe_event)
