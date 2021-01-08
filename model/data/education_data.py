@@ -27,6 +27,11 @@ class EducationData:
     def from_dict(cls, data):
         return EducationData(data["name"], data["value"], data["is_url"])
 
+    def update(self, name, value, is_url):
+        self.__name = name
+        self.__value = value
+        self.__is_url = is_url
+
 
 class EducationDataContainer:
     def __init__(self):
@@ -36,15 +41,11 @@ class EducationDataContainer:
     def data(self):
         return self.__data
 
-    def add_data(self, name: str, value: str, is_url: bool):
-        self.__data.append(EducationData(name, value, is_url))
+    def add_data(self, item: EducationData):
+        self.__data.append(item)
 
-    def update_data(self, index: int, name: str, value: str, is_url: bool):
-        data = self.__data[index]
-        self.__data[index] = EducationData(name or data.name, value or data.value, is_url or data.is_url)
-
-    def delete_data(self, index: int):
-        self.__data.pop(index)
+    def delete_data(self, item: EducationData):
+        self.__data.remove(item)
 
     def list_to_json(self):
         return [data.to_dict() for data in self.__data]

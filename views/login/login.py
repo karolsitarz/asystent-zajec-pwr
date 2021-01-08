@@ -9,7 +9,7 @@ from views.login.login_viewmodel import LoginViewModel
 class LoginView(FrameView):
     def __init__(self, root: Tk):
         super().__init__(root, ViewName.LOGIN)
-        self.__view_model = LoginViewModel()
+        self.view_model = LoginViewModel()
 
         # START create layout
         parent = Frame(self)
@@ -17,12 +17,12 @@ class LoginView(FrameView):
         self.field_login = Entry(parent)
         self.field_login.insert(0, "pwr308496")  # TODO: USED FOR DEBUGGING, DELETE LATER
         self.field_login.pack(side=TOP, pady=2)
-        self.field_login.bind("<Return>", lambda event: self.send_jsos_login())
+        self.field_login.bind("<Return>", self.send_jsos_login)
 
         Label(parent, text="Password").pack(side=TOP)
         self.field_password = Entry(parent, show="*")
         self.field_password.pack(side=TOP, pady=2)
-        self.field_password.bind("<Return>", lambda event: self.send_jsos_login())
+        self.field_password.bind("<Return>", self.send_jsos_login)
 
         self.button = Button(parent, text="Zaloguj", command=self.send_jsos_login)
         self.button.pack(side=TOP, pady=10)
@@ -45,7 +45,7 @@ class LoginView(FrameView):
             self.button["state"] = "active"
             self.update()
 
-        self.__view_model.status.observe(observe_status)
+        self.view_model.status.observe(observe_status)
 
-    def send_jsos_login(self):
-        self.__view_model.jsos_login(self.field_login.get(), self.field_password.get())
+    def send_jsos_login(self, _=None):
+        self.view_model.jsos_login(self.field_login.get(), self.field_password.get())

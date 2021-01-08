@@ -4,6 +4,7 @@ from model.repository import Repository
 from util.constants.views import ViewName
 from util.methods.local_data import load_data
 from views.course_list.course_list import CourseListView
+from views.education_data_form.education_data_form import EducationDataFormView
 from views.event_list.event_list import EventListView
 from views.loading.loading import LoadingView
 from views.login.login import LoginView
@@ -23,6 +24,7 @@ class Application(Tk):
         self.columnconfigure(0, weight=1)
 
         # init views
+        EducationDataFormView(self)
         SingleEventView(self)
         EventListView(self)
         LoginView(self)

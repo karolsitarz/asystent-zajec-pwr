@@ -34,8 +34,8 @@ class SingleEventView(ScrollableFrameView):
 
             event_data_header = Frame(self)
             Label(event_data_header, text="Dane zajęć", anchor="w", font="Arial 11").pack(side="left")
-            Button(event_data_header, text="+", command=lambda: print(":D")).pack(side="right")
-            event_data_header.pack(fill="both", expand=True, pady=5, padx=10)
+            Button(event_data_header, text="+", command=lambda: self.view_model.add_education_data(event, False)).pack(side="right")
+            event_data_header.pack(fill="both", expand=True, padx=10)
 
             event_data = Frame(self)
             if len(event.data) == 0:
@@ -43,12 +43,12 @@ class SingleEventView(ScrollableFrameView):
 
             for data in event.data:
                 EducationDataItem(event_data, data)
-            event_data.pack(fill="both", expand=True, pady=10, padx=10)
+            event_data.pack(fill="both", expand=True, pady=5, padx=10)
 
             course_data_header = Frame(self)
             Label(course_data_header, text="Dane kursu", anchor="w", font="Arial 11").pack(side="left")
-            Button(course_data_header, text="+", command=lambda: print(":D")).pack(side="right")
-            course_data_header.pack(fill="both", expand=True, pady=5, padx=10)
+            Button(course_data_header, text="+", command=lambda: self.view_model.add_education_data(event.course, True)).pack(side="right")
+            course_data_header.pack(fill="both", expand=True, padx=10)
 
             course_data = Frame(self)
             if len(event.course.data) == 0:
@@ -56,6 +56,6 @@ class SingleEventView(ScrollableFrameView):
 
             for data in event.course.data:
                 EducationDataItem(course_data, data)
-            course_data.pack(fill="both", expand=True, pady=10, padx=10)
+            course_data.pack(fill="both", expand=True, pady=5, padx=10)
 
         self.view_model.event.observe(observe_event)
