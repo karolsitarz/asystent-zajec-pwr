@@ -12,6 +12,7 @@ class EventListViewModel:
         super().__init__()
         self.is_showing_all = False
         self.events: Observable[list[tuple[bool, Event]]] = Observable()
+        self.has_changed = Repository.has_changed
 
         def observe_events(events: list[Event]):
             self.update_events(events)

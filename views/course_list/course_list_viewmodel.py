@@ -12,6 +12,7 @@ class CourseListViewModel:
         def action():
             course.toggle_hidden()
             self.courses.emit()
+            Repository.has_changed.value = True
 
         return action
 

@@ -32,3 +32,5 @@ def save_data():
     parsed_events = [e.to_dict() for e in Repository.events.value]
     with open(DATA_PATH, "w") as out:
         json.dump((parsed_courses, parsed_events), out)
+
+    Repository.has_changed.value = False

@@ -46,6 +46,7 @@ class EducationDataViewModel:
 
         self.selected.emit()
         Repository.selected_event.emit()
+        Repository.has_changed.value = True
         Repository.active_view.value = ViewName.SINGLE_EVENT
         return True
 
@@ -56,4 +57,5 @@ class EducationDataViewModel:
         source.delete_data(education_data)
 
         Repository.selected_event.emit()
+        Repository.has_changed.value = True
         Repository.active_view.value = ViewName.SINGLE_EVENT

@@ -14,7 +14,8 @@ class EventListView(ScrollableFrameView):
 
         Button(self.toolbar, text="toggle visibility", command=self.view_model.toggle_is_showing_all).pack(side="left")
         Button(self.toolbar, text="course list", command=self.view_model.navigate_to_course_list).pack(side="left")
-        Button(self.toolbar, text="save data", command=save_data).pack(side="left")
+        self.button_save = Button(self.toolbar, text="save data", command=save_data, state="disabled")
+        self.button_save.pack(side="left")
 
         self.setup_observers()
 
@@ -34,3 +35,11 @@ class EventListView(ScrollableFrameView):
             self.canvas.yview_moveto('0.0')
 
         self.view_model.events.observe(observe_events)
+
+        def observe_changed(has_changed: bool):
+            if has_changed:
+                self.button_save["state"] = "normal"
+            else:
+                self.button_save["state"] = "disabled"
+
+        self.view_model.has_changed.observe(observe_changed)

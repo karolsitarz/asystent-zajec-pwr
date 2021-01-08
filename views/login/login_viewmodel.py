@@ -26,7 +26,7 @@ class LoginViewModel:
             (courses, events) = jsos_login(username, password)
             Repository.events.value = events
             Repository.courses.value = courses
-            save_data()
+            Repository.has_changed.value = True
             self.status.value = (Response.success, "Dane pobrano pomyślnie", f"Pobrano {len(courses)} kursów i {len(events)} terminów")
             Repository.active_view.value = ViewName.EVENT_LIST
 
