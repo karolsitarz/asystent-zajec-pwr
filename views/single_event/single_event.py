@@ -67,6 +67,6 @@ class SingleEventView(ScrollableFrameView):
 
             for data in event.course.data:
                 EducationDataItem(course_data, data, self.view_model.edit_education_data(event.course, data, is_course=True))
-            course_data.pack(fill="both", expand=True, padx=10)
+            course_data.pack(fill="both", expand=True, padx=10, pady=(0, 10))
 
         self.view_model.event.observe(observe_event)

@@ -1,5 +1,5 @@
 import webbrowser
-from tkinter import Frame, Label, Text, WORD, PhotoImage
+from tkinter import Frame, Label, Text, WORD, PhotoImage, Scrollbar
 
 from model.data.education_data import EducationData
 from util.constants import ASSETS
@@ -32,10 +32,16 @@ class EducationDataItem(Frame):
 
         if not data.is_url:
             if len(data.value) > 0:
-                content = Text(self, height=5, wrap=WORD, border=0)
+                text_container = Frame(self)
+                scrollbar = Scrollbar(text_container)
+                scrollbar.pack(side="right", fill="y")
+                content = Text(text_container, height=5, wrap=WORD, border=0, yscrollcommand=scrollbar.set)
+                scrollbar["command"] = content.yview
                 content.insert('1.0', data.value)
                 content.configure(state="disabled")
-                content.pack(fill="x", expand=True, padx=2, side="top")
+                content.pack(fill="x", expand=True, side="left")
+                text_container.pack(fill="x", expand=True, padx=2)
+                content.bind("<MouseWheel>", lambda _: "break")
         else:
             def on_enter(_):
                 label["font"] = "Arial 10 bold underline"
