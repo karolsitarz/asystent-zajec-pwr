@@ -5,7 +5,7 @@ from model.logic.observable import Observable
 from model.logic.response import Response
 from model.repository import Repository
 from util.constants import ViewName
-from views.login.jsos_connect import jsos_login
+from views.login.jsos_connect import jsos_login, LoginException
 
 
 class LoginViewModel:
@@ -25,6 +25,9 @@ class LoginViewModel:
             Repository.courses.value = courses
             Repository.has_changed.value = True
             Repository.active_view.value = ViewName.EVENT_LIST
+
+        except LoginException:
+            pass
 
         except Exception as e:
             print(e)

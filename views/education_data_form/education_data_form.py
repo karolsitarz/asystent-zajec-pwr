@@ -50,13 +50,13 @@ class EducationDataFormView(FrameView):
 
         container_buttons = Frame(parent)
 
-        self.button_submit = Button(container_buttons, text="Zapisz", command=self.submit_form)
+        self.button_submit = Button(container_buttons, text="Zapisz", command=self.submit_form, padx=5)
         self.button_submit.pack(side="right")
 
-        self.button_cancel = Button(container_buttons, text="Anuluj", command=self.cancel_form)
+        self.button_cancel = Button(container_buttons, text="Anuluj", command=self.cancel_form, padx=5)
         self.button_cancel.pack(side="right", padx=10)
 
-        self.button_delete = Button(container_buttons, text="Usuń", command=self.delete_form)
+        self.button_delete = Button(container_buttons, text="Usuń", command=self.delete_form, padx=5)
         self.button_delete.pack(side="left")
 
         container_buttons.pack(pady=5, padx=20, fill="x")

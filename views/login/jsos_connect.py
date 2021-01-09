@@ -20,9 +20,21 @@ COURSES_URL = "https://jsos.pwr.edu.pl/index.php/student/zajecia"
 ICAL_URL = "https://jsos.pwr.edu.pl/index.php/student/zajecia/iCalendar"
 
 
+class LoginException(Exception):
+    pass
+
+
 def jsos_login(viewmodel, username: str, password: str):
     def update_status(response: Response, content: str):
         viewmodel.status.value = (response, content)
+
+    if len(username) == 0:
+        update_status(Response.error, 'Pole "Nazwa użytkownika" nie może być puste.')
+        raise LoginException()
+
+    if len(password) == 0:
+        update_status(Response.error, 'Pole "Hasło" nie może być puste.')
+        raise LoginException()
 
     update_status(Response.loading, "Ustanawianie połączenia...")
     cj = CookieJar()
@@ -41,10 +53,10 @@ def jsos_login(viewmodel, username: str, password: str):
         error_elem = soup.select_one(".message.error > span")
         if len(error_elem) == 0:
             update_status(Response.error, "Wystąpił błąd. Spróbuj ponownie później.")
-            raise Exception()
+            raise LoginException()
 
         update_status(Response.error, error_elem.string)
-        raise Exception()
+        raise LoginException()
 
     update_status(Response.loading, "Parsowanie danych o kursach...")
     br.open(COURSES_URL)
@@ -52,7 +64,7 @@ def jsos_login(viewmodel, username: str, password: str):
     elements = soup.select(".dane-content .listaTable tbody tr")
     if len(elements) == 0:
         update_status(Response.error, "Wystąpił błąd. Spróbuj ponownie później.")
-        raise Exception()
+        raise LoginException()
 
     courses: list[Course] = []
     for element in elements:

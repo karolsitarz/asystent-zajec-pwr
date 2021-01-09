@@ -1,4 +1,4 @@
-from tkinter import Tk, Button, Label, messagebox
+from tkinter import Tk, Label, messagebox
 
 from util.constants import ViewName, ASSETS
 from util.image_button import ImageButton

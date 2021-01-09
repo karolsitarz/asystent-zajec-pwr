@@ -13,22 +13,23 @@ class LoginView(FrameView):
 
         # START create layout
         parent = Frame(self)
-        Label(parent, text="Login").pack()
+        Label(parent, text="Nazwa użytkownika").pack()
         self.field_login = Entry(parent)
         self.field_login.insert(0, "pwr308496")  # TODO: USED FOR DEBUGGING, DELETE LATER
-        self.field_login.pack(pady=2)
+        self.field_login.pack(pady=(5, 10))
         self.field_login.bind("<Return>", self.send_jsos_login)
 
-        Label(parent, text="Password").pack()
+        Label(parent, text="Hasło").pack()
         self.field_password = Entry(parent, show="*")
-        self.field_password.pack(pady=2)
+        self.field_password.pack(pady=(5, 10))
         self.field_password.bind("<Return>", self.send_jsos_login)
 
-        self.info = Label(parent, justify="center", wraplength=300)
-        self.info.pack(pady=5)
-
-        self.button = Button(parent, text="Zaloguj", command=self.send_jsos_login)
+        self.button = Button(parent, text="Zaloguj", command=self.send_jsos_login, padx=10)
         self.button.pack(pady=10)
+
+        self.info = Label(parent, justify="center", wraplength=300)
+        self.info.pack()
+
         parent.pack(expand=1)
         self.setup_observers()
 
