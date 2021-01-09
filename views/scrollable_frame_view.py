@@ -13,7 +13,7 @@ class ScrollableFrameView(FrameView):
         self.toolbar = Frame(self.container)
         self.toolbar.pack(fill="x", pady=5, padx=5)
 
-        self.canvas = Canvas(self.container)
+        self.canvas = Canvas(self.container, bd=0, highlightthickness=0)
         super().__init__(self.canvas, name)
 
         def yview(*args):
