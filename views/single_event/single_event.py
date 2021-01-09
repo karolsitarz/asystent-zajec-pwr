@@ -36,7 +36,7 @@ class SingleEventView(ScrollableFrameView):
             container.pack(fill="both", expand=True, pady=10, padx=10)
 
             event_data_header = Frame(self)
-            Label(event_data_header, text="Dane zajęć", anchor="w", font="Arial 11").pack(side="left")
+            Label(event_data_header, text="Dane zajęć", anchor="w", font="Arial 11 bold").pack(side="left")
 
             button_plus_event = ImageButton(event_data_header, tooltip="Dodaj notatkę zajęć", image=ASSETS["plus"], width=16, height=16)
             button_plus_event["command"] = self.view_model.add_education_data(event, False)
@@ -53,7 +53,7 @@ class SingleEventView(ScrollableFrameView):
             event_data.pack(fill="both", expand=True, padx=10)
 
             course_data_header = Frame(self)
-            Label(course_data_header, text="Dane kursu", anchor="w", font="Arial 11").pack(side="left")
+            Label(course_data_header, text="Dane kursu", anchor="w", font="Arial 11 bold").pack(side="left")
 
             button_plus_course = ImageButton(course_data_header, tooltip="Dodaj notatkę kursu", image=ASSETS["plus"], width=16, height=16)
             button_plus_course["command"] = self.view_model.add_education_data(event.course, is_course=True)

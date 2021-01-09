@@ -14,6 +14,7 @@ url_pattern = r"(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]
 
 
 ASSETS = {
+    "icon": "assets/icon.ico",
     "visible": "assets/visible.png",
     "invisible": "assets/invisible.png",
     "save": "assets/save.png",
@@ -22,5 +23,5 @@ ASSETS = {
     "back": "assets/back.png",
     "edit": "assets/edit.png",
     "list": "assets/list.png",
-    "icon": "assets/icon.ico",
+    "link": "assets/link.png",
 }

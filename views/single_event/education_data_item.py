@@ -1,5 +1,5 @@
 import webbrowser
-from tkinter import Frame, Label, Text, WORD
+from tkinter import Frame, Label, Text, WORD, PhotoImage
 
 from model.data.education_data import EducationData
 from util.constants import ASSETS
@@ -10,10 +10,12 @@ class EducationDataItem(Frame):
     def __init__(self, parent, data: EducationData, on_button, **kw):
         super().__init__(parent, **kw)
         bg = "white"
-        fg = "blue" if data.is_url else None
 
         header = Frame(self, bg=bg)
-        label = Label(header, text=data.name, anchor="w", font="Arial 10 bold", bg=bg, fg=fg)
+        if data.is_url:
+            self.__link_image = PhotoImage(file=ASSETS["link"])
+            Label(header, image=self.__link_image, bg=bg).pack(side="left")
+        label = Label(header, text=data.name, anchor="w", font="Arial 10 bold", bg=bg)
         label.pack(fill="x", expand=True, side="left")
 
         button_plus_event = ImageButton(header, tooltip="Edytuj notatkę", image=ASSETS["edit"], width=16, height=16)
