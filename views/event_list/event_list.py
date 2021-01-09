@@ -1,6 +1,7 @@
 from tkinter import Tk, Button, Label, messagebox
 
-from util.constants import ViewName
+from util.constants import ViewName, ASSETS
+from util.image_button import ImageButton
 from util.local_data import save_data
 from views.event_list.event_list_item import EventListItem
 from views.event_list.event_list_viewmodel import EventListViewModel
@@ -12,16 +13,28 @@ class EventListView(ScrollableFrameView):
         super().__init__(root, ViewName.EVENT_LIST)
         self.view_model = EventListViewModel()
 
-        Button(self.toolbar, text="toggle visibility", command=self.view_model.toggle_is_showing_all).pack(side="left")
-        Button(self.toolbar, text="course list", command=self.view_model.navigate_to_course_list).pack(side="left")
-        self.button_save = Button(self.toolbar, text="save data", command=save_data, state="disabled")
-        self.button_save.pack(side="left")
-        Button(self.toolbar, text="clear all data", command=self.clear_data).pack(side="right")
+        self.button_visibility = ImageButton(self.toolbar, tooltip="Przełącz widoczność starych kursów", image=ASSETS["visible"])
+        self.button_visibility["command"] = self.view_model.toggle_is_showing_all
+        self.button_visibility.pack(side="left", padx=2)
+
+        self.button_course_list = ImageButton(self.toolbar, tooltip="Lista kursów", image=ASSETS["list"])
+        self.button_course_list["command"] = self.view_model.navigate_to_course_list
+        self.button_course_list.pack(side="left", padx=2)
+
+        self.button_clear_data = ImageButton(self.toolbar, tooltip="Wyczyść dane", image=ASSETS["trash"])
+        self.button_clear_data["command"] = self.clear_data
+        self.button_clear_data.pack(side="right", padx=2)
+
+        self.button_save = ImageButton(self.toolbar, tooltip="Zapisz zmiany", image=ASSETS["save"], state="disabled")
+        self.button_save["command"] = save_data
+        self.button_save.pack(side="right", padx=2)
 
         self.setup_observers()
 
     def setup_observers(self):
         def observe_events(data):
+            self.button_visibility.set_image(ASSETS["invisible"] if self.view_model.is_showing_all else ASSETS["visible"])
+
             for child in self.winfo_children():
                 child.destroy()
 

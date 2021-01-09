@@ -11,3 +11,15 @@ class ViewName(Enum):
 
 
 url_pattern = r"(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})"
+
+
+ASSETS = {
+    "visible": "assets/visible.png",
+    "invisible": "assets/invisible.png",
+    "save": "assets/save.png",
+    "trash": "assets/trash.png",
+    "plus": "assets/plus.png",
+    "back": "assets/back.png",
+    "edit": "assets/edit.png",
+    "list": "assets/list.png",
+}
