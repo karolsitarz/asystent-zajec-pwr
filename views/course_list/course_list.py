@@ -1,7 +1,8 @@
-from tkinter import Tk, Button
+from tkinter import Tk
 
 from model.data.course import Course
-from util.constants import ViewName
+from util.constants import ViewName, ASSETS
+from util.image_button import ImageButton
 from views.course_list.course_list_item import CourseListItem
 from views.course_list.course_list_viewmodel import CourseListViewModel
 from views.scrollable_frame_view import ScrollableFrameView
@@ -12,7 +13,9 @@ class CourseListView(ScrollableFrameView):
         super().__init__(root, ViewName.COURSE_LIST)
         self.view_model = CourseListViewModel()
 
-        Button(self.toolbar, text="go back", command=self.view_model.go_back).pack(side="left")
+        button_back = ImageButton(self.toolbar, tooltip="Powrót", image=ASSETS["back"])
+        button_back["command"] = self.view_model.go_back
+        button_back.pack(side="left", padx=2)
 
         self.setup_observers()
 

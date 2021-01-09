@@ -17,13 +17,13 @@ class EventListView(ScrollableFrameView):
         self.button_visibility["command"] = self.view_model.toggle_is_showing_all
         self.button_visibility.pack(side="left", padx=2)
 
-        self.button_course_list = ImageButton(self.toolbar, tooltip="Lista kursów", image=ASSETS["list"])
-        self.button_course_list["command"] = self.view_model.navigate_to_course_list
-        self.button_course_list.pack(side="left", padx=2)
+        button_course_list = ImageButton(self.toolbar, tooltip="Lista kursów", image=ASSETS["list"])
+        button_course_list["command"] = self.view_model.navigate_to_course_list
+        button_course_list.pack(side="left", padx=2)
 
-        self.button_clear_data = ImageButton(self.toolbar, tooltip="Wyczyść dane", image=ASSETS["trash"])
-        self.button_clear_data["command"] = self.clear_data
-        self.button_clear_data.pack(side="right", padx=2)
+        button_clear_data = ImageButton(self.toolbar, tooltip="Wyczyść dane", image=ASSETS["trash"])
+        button_clear_data["command"] = self.clear_data
+        button_clear_data.pack(side="right", padx=2)
 
         self.button_save = ImageButton(self.toolbar, tooltip="Zapisz zmiany", image=ASSETS["save"], state="disabled")
         self.button_save["command"] = save_data

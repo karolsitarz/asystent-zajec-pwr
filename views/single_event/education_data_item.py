@@ -1,7 +1,9 @@
 import webbrowser
-from tkinter import Frame, Label, Text, WORD, Button
+from tkinter import Frame, Label, Text, WORD
 
 from model.data.education_data import EducationData
+from util.constants import ASSETS
+from util.image_button import ImageButton
 
 
 class EducationDataItem(Frame):
@@ -13,7 +15,11 @@ class EducationDataItem(Frame):
         header = Frame(self, bg=bg)
         label = Label(header, text=data.name, anchor="w", font="Arial 10 bold", bg=bg, fg=fg)
         label.pack(fill="x", expand=True, side="left")
-        Button(header, text="e", command=on_button).pack(side="right")
+
+        button_plus_event = ImageButton(header, tooltip="Edytuj notatkę", image=ASSETS["edit"], width=16, height=16)
+        button_plus_event["command"] = on_button
+        button_plus_event.pack(side="right")
+
         header.pack(fill="x")
 
         self.pack(fill="x", pady=2)

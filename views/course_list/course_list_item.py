@@ -1,6 +1,8 @@
-from tkinter import Frame, Label, Button
+from tkinter import Frame, Label
 
 from model.data.course import Course
+from util.constants import ASSETS
+from util.image_button import ImageButton
 
 
 class CourseListItem(Frame):
@@ -14,5 +16,7 @@ class CourseListItem(Frame):
         self["bg"] = bg
 
         Label(self, text=f"{course.type} {course.name}", anchor="w", bg=bg, fg=fg).pack(side="left")
-        Button(self, text="hidden" if course.is_hidden else "visible", command=on_toggle).pack(side="right")
+        button = ImageButton(self, tooltip="Przełącz widoczność kursu w liście", image=ASSETS["invisible"] if course.is_hidden else ASSETS["visible"])
+        button["command"] = on_toggle
+        button.pack(side="right")
         self.pack(fill="x", expand=True, pady=5, padx=10)
