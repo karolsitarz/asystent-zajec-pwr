@@ -6,7 +6,6 @@ from model.logic.response import Response
 from model.repository import Repository
 from util.constants.views import ViewName
 from views.login.jsos_connect import jsos_login
-from util.methods.local_data import save_data
 
 
 class LoginViewModel:
@@ -29,6 +28,7 @@ class LoginViewModel:
 
         except Exception as e:
             print(e)
+            self.status.value = (Response.error, "Wystąpił błąd. Spróbuj ponownie później.")
             traceback.print_exc()
 
         finally:

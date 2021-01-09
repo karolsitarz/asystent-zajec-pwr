@@ -54,5 +54,6 @@ class EventListViewModel:
 
     @staticmethod
     def clear_data():
+        Repository.has_changed.value = False
         clear_data()
         Repository.active_view.value = ViewName.LOGIN

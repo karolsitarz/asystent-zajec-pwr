@@ -48,7 +48,7 @@ class Application(Tk):
     def setup_handlers(self):
         def on_close():
             if Repository.has_changed.value:
-                response = messagebox.askyesnocancel("Uwaga!", "Masz niezapisane zmiany! Czy chcesz je zapisać?")
+                response = messagebox.askyesnocancel("Uwaga!", "Masz niezapisane zmiany. Czy chcesz je zapisać?")
                 if response is None:
                     return
                 if response is True:

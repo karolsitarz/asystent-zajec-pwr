@@ -1,4 +1,4 @@
-from tkinter import messagebox, Label, TOP, Entry, Button, Frame, Tk
+from tkinter import messagebox, Label, Entry, Button, Frame, Tk
 
 from model.logic.response import Response
 from util.constants.views import ViewName
@@ -35,10 +35,6 @@ class LoginView(FrameView):
     def setup_observers(self):
         def observe_status(data):
             (response, content) = data
-            if response is Response.success:
-                messagebox.showinfo("Dane załadowano pomyślnie", content)
-                return
-
             if response is Response.loading:
                 self.info["fg"] = "gray"
                 self.info["text"] = content
@@ -46,9 +42,15 @@ class LoginView(FrameView):
                 self.update()
                 return
 
+            self.button["state"] = "active"
+
+            if response is Response.success:
+                messagebox.showinfo("Dane załadowano pomyślnie", content)
+                self.info["text"] = ""
+                return
+
             self.info["fg"] = "red"
             self.info["text"] = content
-            self.button["state"] = "active"
             self.update()
 
         self.view_model.status.observe(observe_status)

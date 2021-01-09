@@ -40,7 +40,7 @@ def jsos_login(viewmodel, username: str, password: str):
         soup = BeautifulSoup(br.response().read(), "html.parser")
         error_elem = soup.select_one(".message.error > span")
         if len(error_elem) == 0:
-            update_status(Response.error, "Coś poszło nie tak. Spróbuj ponownie później.")
+            update_status(Response.error, "Wystąpił błąd. Spróbuj ponownie później.")
             raise Exception()
 
         update_status(Response.error, error_elem.string)
@@ -51,7 +51,7 @@ def jsos_login(viewmodel, username: str, password: str):
     soup = BeautifulSoup(br.response().read(), "html.parser")
     elements = soup.select(".dane-content .listaTable tbody tr")
     if len(elements) == 0:
-        update_status(Response.error, "Coś poszło nie tak. Spróbuj ponownie później.")
+        update_status(Response.error, "Wystąpił błąd. Spróbuj ponownie później.")
         raise Exception()
 
     courses: list[Course] = []
