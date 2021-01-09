@@ -1,4 +1,4 @@
-from tkinter import Tk, Button, Label
+from tkinter import Tk, Button, Label, messagebox
 
 from util.constants.views import ViewName
 from util.methods.local_data import save_data
@@ -16,6 +16,7 @@ class EventListView(ScrollableFrameView):
         Button(self.toolbar, text="course list", command=self.view_model.navigate_to_course_list).pack(side="left")
         self.button_save = Button(self.toolbar, text="save data", command=save_data, state="disabled")
         self.button_save.pack(side="left")
+        Button(self.toolbar, text="clear all data", command=self.clear_data).pack(side="right")
 
         self.setup_observers()
 
@@ -43,3 +44,7 @@ class EventListView(ScrollableFrameView):
                 self.button_save["state"] = "disabled"
 
         self.view_model.has_changed.observe(observe_changed)
+
+    def clear_data(self):
+        if messagebox.askyesno("Uwaga!", "Ta operacja usunie wszystkie dane w aplikacji. Konieczne będzie ponowne zalogowanie. Czy na pewno chcesz kontynuować?"):
+            self.view_model.clear_data()

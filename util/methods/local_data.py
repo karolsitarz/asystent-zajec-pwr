@@ -34,3 +34,10 @@ def save_data():
         json.dump((parsed_courses, parsed_events), out)
 
     Repository.has_changed.value = False
+
+
+def clear_data():
+    if not os.path.exists(DATA_PATH):
+        return
+
+    os.remove(DATA_PATH)

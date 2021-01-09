@@ -1,10 +1,10 @@
 from datetime import datetime
-from typing import Optional
 
 from model.data.event import Event
 from model.logic.observable import Observable
 from model.repository import Repository
 from util.constants.views import ViewName
+from util.methods.local_data import clear_data
 
 
 class EventListViewModel:
@@ -51,3 +51,8 @@ class EventListViewModel:
             Repository.active_view.value = ViewName.SINGLE_EVENT
 
         return action
+
+    @staticmethod
+    def clear_data():
+        clear_data()
+        Repository.active_view.value = ViewName.LOGIN
