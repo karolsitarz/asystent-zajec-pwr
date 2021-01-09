@@ -17,9 +17,10 @@ ASSETS = {
     "visible": "assets/visible.png",
     "invisible": "assets/invisible.png",
     "save": "assets/save.png",
-    "trash": "assets/trash.png",
+    "logout": "assets/logout.png",
     "plus": "assets/plus.png",
     "back": "assets/back.png",
     "edit": "assets/edit.png",
     "list": "assets/list.png",
+    "icon": "assets/icon.ico",
 }

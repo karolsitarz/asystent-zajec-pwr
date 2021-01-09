@@ -21,7 +21,7 @@ class EventListView(ScrollableFrameView):
         button_course_list["command"] = self.view_model.navigate_to_course_list
         button_course_list.pack(side="left", padx=2)
 
-        button_clear_data = ImageButton(self.toolbar, tooltip="Wyczyść dane", image=ASSETS["trash"])
+        button_clear_data = ImageButton(self.toolbar, tooltip="Wyloguj i wyczyść dane", image=ASSETS["logout"])
         button_clear_data["command"] = self.clear_data
         button_clear_data.pack(side="right", padx=2)
 
@@ -59,5 +59,5 @@ class EventListView(ScrollableFrameView):
         self.view_model.has_changed.observe(observe_changed)
 
     def clear_data(self):
-        if messagebox.askyesno("Uwaga!", "Ta operacja usunie wszystkie dane w aplikacji. Konieczne będzie ponowne zalogowanie. Czy na pewno chcesz kontynuować?"):
+        if messagebox.askyesno("Uwaga!", "Ta operacja nieodwracalnie usunie wszystkie dane w aplikacji. Konieczne będzie ponowne zalogowanie. Czy na pewno chcesz kontynuować?"):
             self.view_model.clear_data()

@@ -1,7 +1,7 @@
 from tkinter import Tk, messagebox
 
 from model.repository import Repository
-from util.constants import ViewName
+from util.constants import ViewName, ASSETS
 from util.local_data import load_data, save_data
 from views.course_list.course_list import CourseListView
 from views.education_data_form.education_data_form import EducationDataFormView
@@ -21,6 +21,7 @@ class Application(Tk):
 
         self.update()
         self.geometry("300x500")
+        self.iconbitmap(ASSETS["icon"])
 
         self.rowconfigure(0, weight=1)
         self.columnconfigure(0, weight=1)
