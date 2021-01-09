@@ -19,19 +19,16 @@ class LoginViewModel:
         if self.__is_submitting:
             return
 
-        self.status.value = (Response.loading, None, None)
-
         try:
             self.__is_submitting = True
-            (courses, events) = jsos_login(username, password)
+            (courses, events) = jsos_login(self, username, password)
             Repository.events.value = events
             Repository.courses.value = courses
             Repository.has_changed.value = True
-            self.status.value = (Response.success, "Dane pobrano pomyślnie", f"Pobrano {len(courses)} kursów i {len(events)} terminów")
             Repository.active_view.value = ViewName.EVENT_LIST
 
         except Exception as e:
-            self.status.value = (Response.error, "Wystąpił błąd", e)
+            print(e)
             traceback.print_exc()
 
         finally:

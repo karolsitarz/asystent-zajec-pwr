@@ -13,39 +13,46 @@ class LoginView(FrameView):
 
         # START create layout
         parent = Frame(self)
-        Label(parent, text="Login").pack(side=TOP)
+        Label(parent, text="Login").pack()
         self.field_login = Entry(parent)
         self.field_login.insert(0, "pwr308496")  # TODO: USED FOR DEBUGGING, DELETE LATER
-        self.field_login.pack(side=TOP, pady=2)
+        self.field_login.pack(pady=2)
         self.field_login.bind("<Return>", self.send_jsos_login)
 
-        Label(parent, text="Password").pack(side=TOP)
+        Label(parent, text="Password").pack()
         self.field_password = Entry(parent, show="*")
-        self.field_password.pack(side=TOP, pady=2)
+        self.field_password.pack(pady=2)
         self.field_password.bind("<Return>", self.send_jsos_login)
 
+        self.info = Label(parent, justify="center", wraplength=300)
+        self.info.pack(pady=5)
+
         self.button = Button(parent, text="Zaloguj", command=self.send_jsos_login)
-        self.button.pack(side=TOP, pady=10)
+        self.button.pack(pady=10)
         parent.pack(expand=1)
         self.setup_observers()
 
     def setup_observers(self):
         def observe_status(data):
-            (response, title, body) = data
+            (response, content) = data
+            if response is Response.success:
+                messagebox.showinfo("Dane załadowano pomyślnie", content)
+                return
+
             if response is Response.loading:
+                self.info["fg"] = "gray"
+                self.info["text"] = content
                 self.button["state"] = "disabled"
                 self.update()
                 return
 
-            if response is Response.error:
-                messagebox.showerror(title, body)
-            else:
-                messagebox.showinfo(title, body)
-
+            self.info["fg"] = "red"
+            self.info["text"] = content
             self.button["state"] = "active"
             self.update()
 
         self.view_model.status.observe(observe_status)
 
     def send_jsos_login(self, _=None):
+        self.info["text"] = ""
         self.view_model.jsos_login(self.field_login.get(), self.field_password.get())

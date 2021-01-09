@@ -7,6 +7,7 @@ from bs4 import BeautifulSoup
 from model.data.course import Course
 from model.data.event import Event
 from model.logic.datetime_epoch import DatetimeEpoch
+from model.logic.response import Response
 
 ICAL_START = "DTSTART:"
 ICAL_END = "DTEND:"
@@ -19,12 +20,17 @@ COURSES_URL = "https://jsos.pwr.edu.pl/index.php/student/zajecia"
 ICAL_URL = "https://jsos.pwr.edu.pl/index.php/student/zajecia/iCalendar"
 
 
-def jsos_login(username, password):
+def jsos_login(viewmodel, username: str, password: str):
+    def update_status(response: Response, content: str):
+        viewmodel.status.value = (response, content)
+
+    update_status(Response.loading, "Ustanawianie połączenia...")
     cj = CookieJar()
     br = mechanize.Browser()
     br.set_cookiejar(cj)
     br.open(LOGIN_URL)
 
+    update_status(Response.loading, "Logowanie...")
     br.select_form(nr=0)
     br.form["username"] = username
     br.form["password"] = password
@@ -34,15 +40,19 @@ def jsos_login(username, password):
         soup = BeautifulSoup(br.response().read(), "html.parser")
         error_elem = soup.select_one(".message.error > span")
         if len(error_elem) == 0:
-            raise Exception("Coś poszło nie tak. Spróbuj ponownie później.")
+            update_status(Response.error, "Coś poszło nie tak. Spróbuj ponownie później.")
+            raise Exception()
 
-        raise Exception(error_elem.string)
+        update_status(Response.error, error_elem.string)
+        raise Exception()
 
+    update_status(Response.loading, "Parsowanie danych o kursach...")
     br.open(COURSES_URL)
     soup = BeautifulSoup(br.response().read(), "html.parser")
     elements = soup.select(".dane-content .listaTable tbody tr")
     if len(elements) == 0:
-        raise Exception("Coś poszło nie tak. Spróbuj ponownie później.")
+        update_status(Response.error, "Coś poszło nie tak. Spróbuj ponownie później.")
+        raise Exception()
 
     courses: list[Course] = []
     for element in elements:
@@ -55,6 +65,7 @@ def jsos_login(username, password):
         code = element.select_one("td:nth-child(3)").string
         courses.append(Course(code, course_type, name, lecturer))
 
+    update_status(Response.loading, "Parsowanie danych o zajęciach...")
     br.open(ICAL_URL)
     decoded = br.response().read().decode("utf-8")
     lines: list[str] = decoded.splitlines()
@@ -87,4 +98,5 @@ def jsos_login(username, password):
             location = None
             course = None
 
+    update_status(Response.success, f"Pobrano {len(courses)} kursów i {len(events)} terminów")
     return courses, events
