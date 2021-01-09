@@ -5,7 +5,7 @@ from typing import Optional, Tuple, Union
 from model.data.course import Course
 from model.data.education_data import EducationData
 from model.data.event import Event
-from util.constants.views import ViewName
+from util.constants import ViewName
 from views.education_data_form.education_data_viewmodel import EducationDataViewModel
 from views.frame_view import FrameView
 

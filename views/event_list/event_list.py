@@ -1,7 +1,7 @@
 from tkinter import Tk, Button, Label, messagebox
 
-from util.constants.views import ViewName
-from util.methods.local_data import save_data
+from util.constants import ViewName
+from util.local_data import save_data
 from views.event_list.event_list_item import EventListItem
 from views.event_list.event_list_viewmodel import EventListViewModel
 from views.scrollable_frame_view import ScrollableFrameView

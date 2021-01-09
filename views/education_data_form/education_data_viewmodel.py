@@ -6,8 +6,8 @@ from model.data.education_data import EducationData
 from model.data.event import Event
 from model.logic.observable import Observable
 from model.repository import Repository
-from util.constants.patterns import url_pattern
-from util.constants.views import ViewName
+from util.constants import url_pattern
+from util.constants import ViewName
 
 
 class EducationDataViewModel:

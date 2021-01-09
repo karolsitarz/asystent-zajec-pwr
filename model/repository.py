@@ -4,7 +4,7 @@ from model.data.course import Course
 from model.data.education_data import EducationData
 from model.data.event import Event
 from model.logic.observable import Observable
-from util.constants.views import ViewName
+from util.constants import ViewName
 
 
 class Repository:

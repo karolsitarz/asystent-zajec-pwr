@@ -1,7 +1,7 @@
 from tkinter import messagebox, Label, Entry, Button, Frame, Tk
 
 from model.logic.response import Response
-from util.constants.views import ViewName
+from util.constants import ViewName
 from views.frame_view import FrameView
 from views.login.login_viewmodel import LoginViewModel
 

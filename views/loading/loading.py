@@ -1,6 +1,6 @@
 from tkinter import Label, Tk
 
-from util.constants.views import ViewName
+from util.constants import ViewName
 from views.frame_view import FrameView
 
 

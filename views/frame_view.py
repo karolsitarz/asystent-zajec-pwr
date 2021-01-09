@@ -1,7 +1,7 @@
 from tkinter import Frame, Tk
 
 from model.repository import Repository
-from util.constants.views import ViewName
+from util.constants import ViewName
 
 
 class FrameView(Frame):

@@ -3,8 +3,8 @@ from datetime import datetime
 from model.data.event import Event
 from model.logic.observable import Observable
 from model.repository import Repository
-from util.constants.views import ViewName
-from util.methods.local_data import clear_data
+from util.constants import ViewName
+from util.local_data import clear_data
 
 
 class EventListViewModel:

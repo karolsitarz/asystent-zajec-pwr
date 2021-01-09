@@ -1,6 +1,6 @@
 from model.data.course import Course
 from model.repository import Repository
-from util.constants.views import ViewName
+from util.constants import ViewName
 
 
 class CourseListViewModel:

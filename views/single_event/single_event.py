@@ -1,7 +1,7 @@
 from tkinter import Frame, Tk, Label, Button
 
 from model.data.event import Event
-from util.constants.views import ViewName
+from util.constants import ViewName
 from views.scrollable_frame_view import ScrollableFrameView
 from views.single_event.education_data_item import EducationDataItem
 from views.single_event.single_event_viewmodel import SingleEventViewModel

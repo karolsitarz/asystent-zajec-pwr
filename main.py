@@ -1,8 +1,8 @@
 from tkinter import Tk, messagebox
 
 from model.repository import Repository
-from util.constants.views import ViewName
-from util.methods.local_data import load_data, save_data
+from util.constants import ViewName
+from util.local_data import load_data, save_data
 from views.course_list.course_list import CourseListView
 from views.education_data_form.education_data_form import EducationDataFormView
 from views.event_list.event_list import EventListView

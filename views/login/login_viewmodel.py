@@ -4,7 +4,7 @@ from typing import Tuple
 from model.logic.observable import Observable
 from model.logic.response import Response
 from model.repository import Repository
-from util.constants.views import ViewName
+from util.constants import ViewName
 from views.login.jsos_connect import jsos_login
 
 

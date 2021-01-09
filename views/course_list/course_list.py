@@ -1,7 +1,7 @@
 from tkinter import Tk, Button
 
 from model.data.course import Course
-from util.constants.views import ViewName
+from util.constants import ViewName
 from views.course_list.course_list_item import CourseListItem
 from views.course_list.course_list_viewmodel import CourseListViewModel
 from views.scrollable_frame_view import ScrollableFrameView
