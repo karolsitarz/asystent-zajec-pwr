@@ -1,6 +1,6 @@
 from model.data.course import Course
-from model.data.education_data import EducationDataContainer, EducationData
-from model.logic.datetime_epoch import DatetimeEpoch
+from model.data.education_data import EducationDataContainer
+from model.data.datetime_epoch import DatetimeEpoch
 
 
 class Event(EducationDataContainer):

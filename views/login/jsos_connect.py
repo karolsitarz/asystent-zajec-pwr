@@ -6,7 +6,7 @@ from bs4 import BeautifulSoup
 
 from model.data.course import Course
 from model.data.event import Event
-from model.logic.datetime_epoch import DatetimeEpoch
+from model.data.datetime_epoch import DatetimeEpoch
 from model.logic.response import Response
 
 ICAL_START = "DTSTART:"
