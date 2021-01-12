@@ -7,7 +7,7 @@ from util.constants import ViewName
 from util.local_data import clear_data
 
 
-class EventListViewModel:
+class EventListAdapter:
     def __init__(self):
         super().__init__()
         self.is_showing_all = False

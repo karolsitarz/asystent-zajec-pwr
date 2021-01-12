@@ -3,13 +3,13 @@ from tkinter import messagebox, Label, Entry, Button, Frame, Tk
 from model.logic.response import Response
 from util.constants import ViewName
 from views.frame_view import FrameView
-from views.login.login_viewmodel import LoginViewModel
+from views.login.login_adapter import LoginAdapter
 
 
 class LoginView(FrameView):
     def __init__(self, root: Tk):
         super().__init__(root, ViewName.LOGIN)
-        self.view_model = LoginViewModel()
+        self.adapter = LoginAdapter()
 
         # START create layout
         parent = Frame(self)
@@ -54,8 +54,8 @@ class LoginView(FrameView):
             self.info["text"] = content
             self.update()
 
-        self.view_model.status.observe(observe_status)
+        self.adapter.status.observe(observe_status)
 
     def send_jsos_login(self, _=None):
         self.info["text"] = ""
-        self.view_model.jsos_login(self.field_login.get(), self.field_password.get())
+        self.adapter.jsos_login(self.field_login.get(), self.field_password.get())

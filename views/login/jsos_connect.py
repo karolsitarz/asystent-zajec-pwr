@@ -24,9 +24,9 @@ class LoginException(Exception):
     pass
 
 
-def jsos_login(viewmodel, username: str, password: str):
+def jsos_login(status, username: str, password: str):
     def update_status(response: Response, content: str):
-        viewmodel.status.value = (response, content)
+        status.value = (response, content)
 
     if len(username) == 0:
         update_status(Response.error, 'Pole "Nazwa użytkownika" nie może być puste.')

@@ -6,17 +6,16 @@ from model.data.course import Course
 from model.data.education_data import EducationData
 from model.data.event import Event
 from util.constants import ViewName
-from views.education_data_form.education_data_viewmodel import EducationDataViewModel
+from views.education_data_form.education_data_adapter import EducationDataAdapter
 from views.frame_view import FrameView
 
 
 class EducationDataFormView(FrameView):
     def __init__(self, root: Tk):
         super().__init__(root, ViewName.EDUCATION_DATA_FORM)
-        self.view_model = EducationDataViewModel()
+        self.adapter = EducationDataAdapter()
 
         # START create layout
-        # self = Frame(self)
         parent = Frame(self)
 
         container_titles = Frame(parent)
@@ -71,7 +70,7 @@ class EducationDataFormView(FrameView):
             self.__errors["text"] = "\n".join(errors)
             self.update()
 
-        self.view_model.errors.observe(observe_errors)
+        self.adapter.errors.observe(observe_errors)
 
         def observe_selected_education_data(data: Tuple[Union[Course, Event], Optional[EducationData], bool]):
             (source, education_data, is_course) = data
@@ -99,28 +98,28 @@ class EducationDataFormView(FrameView):
             self.field_value.insert('1.0', education_data.value)
             self.field_is_url.state(['selected'] if education_data.is_url else ['!selected'])
 
-        self.view_model.selected.observe(observe_selected_education_data)
+        self.adapter.selected.observe(observe_selected_education_data)
 
     def submit_form(self, _=None):
         name = self.field_name.get()
         value = self.field_value.get('1.0', 'end-1c')
         is_url = self.field_is_url.instate(['selected'])
-        is_success = self.view_model.action_submit(name, value, is_url)
+        is_success = self.adapter.action_submit(name, value, is_url)
         if is_success:
             self.clear_fields()
 
     def cancel_form(self):
-        self.view_model.action_cancel()
+        self.adapter.action_cancel()
         self.clear_fields()
 
     def delete_form(self):
         response = messagebox.askyesno("Potwierdzenie", "Czy na pewno chcesz usunąć notatkę w kursie?")
         if not response:
             return
-        self.view_model.action_delete()
+        self.adapter.action_delete()
         self.clear_fields()
 
     def clear_fields(self):
-        self.view_model.errors.value = []
+        self.adapter.errors.value = []
         self.field_name.delete(0, END)
         self.field_value.delete('1.0', END)

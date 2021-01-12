@@ -1,16 +1,16 @@
 from tkinter import Frame, Label
 
 from model.data.event import Event
-from views.event_list_item.event_list_item_viewmodel import EventListItemViewModel
+from views.event_list_item.event_list_item_adapter import EventListItemAdapter
 
 
 class EventListItem(Frame):
     def __init__(self, parent, event: Event, is_before: bool, on_click, **kw):
         super().__init__(parent, **kw)
-        self.view_model = EventListItemViewModel(event)
+        self.adapter = EventListItemAdapter(event)
         fg, bg = ("gray", "lightgray") if is_before else (None, "white")
 
-        self.__header = Label(self, text=self.view_model.time_string.value, anchor="w", fg=fg, bg=bg)
+        self.__header = Label(self, text=self.adapter.time_string.value, anchor="w", fg=fg, bg=bg)
         self.__header.pack(fill="x", expand=True)
         self.__label = Label(self, text=f"{event.course.type} {event.course.name}", anchor="w", font="Arial 10 bold", cursor="hand2", fg=fg, bg=bg)
         self.__label.pack(fill="x", expand=True)
@@ -40,4 +40,4 @@ class EventListItem(Frame):
             self.__header["text"] = header_string
             self.update()
 
-        self.view_model.time_string.observe(action)
+        self.adapter.time_string.observe(action)

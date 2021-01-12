@@ -4,7 +4,7 @@ from model.logic.observable import Observable
 from model.repository import Repository
 
 
-class EventListItemViewModel:
+class EventListItemAdapter:
     def __init__(self, event: Event):
         self.__event = event
         self.time_string: Observable[str] = Observable(self.__generate_time_string())

@@ -3,7 +3,7 @@ from model.repository import Repository
 from util.constants import ViewName
 
 
-class CourseListViewModel:
+class CourseListAdapter:
     def __init__(self):
         self.courses = Repository.courses
 

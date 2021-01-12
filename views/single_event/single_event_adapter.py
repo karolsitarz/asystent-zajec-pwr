@@ -7,7 +7,7 @@ from model.repository import Repository
 from util.constants import ViewName
 
 
-class SingleEventViewModel:
+class SingleEventAdapter:
     def __init__(self):
         self.event = Repository.selected_event
 
