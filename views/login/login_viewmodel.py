@@ -10,7 +10,6 @@ from views.login.jsos_connect import jsos_login, LoginException
 
 class LoginViewModel:
     def __init__(self):
-        super().__init__()
         self.__is_submitting = False
         self.status: Observable[Tuple[Response, str, str]] = Observable()
 

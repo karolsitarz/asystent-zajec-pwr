@@ -12,7 +12,6 @@ from util.constants import ViewName
 
 class EducationDataViewModel:
     def __init__(self):
-        super().__init__()
         self.errors: Observable[list[str]] = Observable([])
         self.selected = Repository.selected_education_data
 

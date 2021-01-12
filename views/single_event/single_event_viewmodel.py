@@ -9,7 +9,6 @@ from util.constants import ViewName
 
 class SingleEventViewModel:
     def __init__(self):
-        super().__init__()
         self.event = Repository.selected_event
 
     @staticmethod

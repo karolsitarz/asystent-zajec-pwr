@@ -5,7 +5,6 @@ from util.constants import ViewName
 
 class CourseListViewModel:
     def __init__(self):
-        super().__init__()
         self.courses = Repository.courses
 
     def toggle_course_visibility(self, course: Course):

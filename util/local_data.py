@@ -1,10 +1,12 @@
 import json
 import os
 import traceback
+from tkinter import messagebox
 
 from model.data.course import Course
 from model.data.event import Event
 from model.repository import Repository
+from util.timer import run_timer
 
 DATA_PATH = "data.json"
 
@@ -21,10 +23,16 @@ def load_data():
 
             Repository.courses.value = courses
             Repository.events.value = events
+            run_timer()
 
     except Exception as e:
         print(e)
         traceback.print_exc()
+        response = messagebox.askokcancel("Uwaga!", "Program nie jest w stanie odczytać danych aplikacji. Czy usunąć aktualne dane?")
+        if response:
+            clear_data()
+        else:
+            quit()
 
 
 def save_data():

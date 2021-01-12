@@ -1,3 +1,4 @@
+from threading import Timer
 from typing import Optional, Union, Tuple
 
 from model.data.course import Course
@@ -24,3 +25,4 @@ class Repository:
     # info whether app state has change (save handling)
     has_changed: Observable[bool] = Observable(False)
 
+    timer: Observable[Timer] = Observable()

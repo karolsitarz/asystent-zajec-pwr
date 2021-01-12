@@ -3,7 +3,7 @@ from tkinter import Tk, Label, messagebox
 from util.constants import ViewName, ASSETS
 from util.image_button import ImageButton
 from util.local_data import save_data
-from views.event_list.event_list_item import EventListItem
+from views.event_list_item.event_list_item import EventListItem
 from views.event_list.event_list_viewmodel import EventListViewModel
 from views.scrollable_frame_view import ScrollableFrameView
 
