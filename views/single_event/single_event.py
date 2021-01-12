@@ -28,7 +28,6 @@ class SingleEventView(ScrollableFrameView):
                 return
 
             container = Frame(self)
-            Label(container, text=event.start.epoch).pack()
             Label(container, text=event.course.code, anchor="w").pack(fill="x", expand=True)
             Label(container, text=f"{event.course.type} {event.course.name}", anchor="w", font="Arial 12 bold").pack(fill="x", expand=True)
             Label(container, text=event.start.__str__(), anchor="w", font="Arial 11").pack(fill="x", expand=True)

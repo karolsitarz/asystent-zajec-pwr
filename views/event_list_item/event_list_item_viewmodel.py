@@ -23,5 +23,5 @@ class EventListItemViewModel:
         if now > self.__event.end.get_datetime():
             return self.__event.end.humanize()
         else:
-            return "w trakcie"
+            return f"w trakcie, koniec {self.__event.end.humanize()}"
 
