@@ -10,7 +10,7 @@ from views.loading.loading import LoadingView
 from views.login.login import LoginView
 from views.single_event.single_event import SingleEventView
 
-TITLE = "Zdalne zajęcia PWR"
+TITLE = "Asystent zajęć zdalnych PWR"
 
 
 class Application(Tk):

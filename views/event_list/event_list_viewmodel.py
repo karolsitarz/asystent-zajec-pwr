@@ -28,7 +28,7 @@ class EventListViewModel:
             if event.course.is_hidden:
                 continue
 
-            is_before = event.start.get_datetime() < now
+            is_before = event.end.get_datetime() < now
             if not self.is_showing_all and is_before:
                 continue
 

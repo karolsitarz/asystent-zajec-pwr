@@ -1,5 +1,6 @@
 from tkinter import Frame, Label
 
+from model.data.datetime_epoch import DatetimeEpoch
 from model.data.event import Event
 
 
@@ -13,7 +14,9 @@ class EventListItem(Frame):
             fg = None
             bg = "white"
 
-        Label(self, text=event.start.humanize(), anchor="w", fg=fg, bg=bg).pack(fill="x", expand=True)
+        now = DatetimeEpoch.now_tz()
+        header_text = event.start.humanize() if now < event.start.get_datetime() else (event.end.humanize() if now > event.end.get_datetime() else "w trakcie")
+        Label(self, text=header_text, anchor="w", fg=fg, bg=bg).pack(fill="x", expand=True)
         label = Label(self, text=f"{event.course.type} {event.course.name}", anchor="w", font="Arial 10 bold", cursor="hand2", fg=fg, bg=bg)
         label.pack(fill="x", expand=True)
 
