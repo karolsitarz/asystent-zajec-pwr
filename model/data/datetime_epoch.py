@@ -1,5 +1,5 @@
 from datetime import datetime
-from math import floor
+from math import ceil
 from zoneinfo import ZoneInfo
 
 TIME_UNITS = {
@@ -40,14 +40,16 @@ class DatetimeEpoch:
         delta = now - this if is_past else this - now
 
         def print_absolute(value, unit):
+            print(value)
             string_builder = []
+            corrected_value = value and ceil(value)
             if value is not None:
-                string_builder.append(floor(value).__str__())
+                string_builder.append(corrected_value.__str__())
 
             formatted_unit: str
-            if value == 1:
+            if value is None or corrected_value <= 1:
                 formatted_unit = TIME_UNITS[unit][0]
-            elif not (12 <= value <= 14) and 2 <= value % 10 <= 4:
+            elif not (12 <= corrected_value <= 14) and 2 <= corrected_value % 10 <= 4:
                 formatted_unit = TIME_UNITS[unit][1]
             else:
                 formatted_unit = TIME_UNITS[unit][2]
@@ -61,8 +63,8 @@ class DatetimeEpoch:
             return " ".join(string_builder)
 
         if delta.days == 0:
-            if 0 <= delta.seconds / 60 <= 1:
-                print_absolute(None, "NOW")
+            if delta.seconds / 60 <= 1:
+                return print_absolute(None, "NOW")
 
             if abs(delta.seconds) / 60 / 60 < 1:
                 return print_absolute(delta.seconds / 60, "M")
