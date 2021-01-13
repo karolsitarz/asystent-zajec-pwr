@@ -1,5 +1,4 @@
-from datetime import datetime
-
+from model.data.datetime_epoch import DatetimeEpoch
 from model.data.event import Event
 from model.logic.observable import Observable
 from model.repository import Repository
@@ -21,7 +20,7 @@ class EventListAdapter:
         Repository.courses.observe(lambda _: self.update_events(Repository.events.value))
 
     def update_events(self, events: list[Event]):
-        now = datetime.now().astimezone()
+        now = DatetimeEpoch.now_tz()
         new_events = []
 
         for event in events:
