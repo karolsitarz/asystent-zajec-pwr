@@ -40,7 +40,6 @@ class DatetimeEpoch:
         delta = now - this if is_past else this - now
 
         def print_absolute(value, unit):
-            print(value)
             string_builder = []
             corrected_value = value and ceil(value)
             if value is not None:

@@ -55,7 +55,8 @@ class Application(Tk):
                 if response is True:
                     save_data()
 
-            Repository.timer.value.cancel()
+            if Repository.timer.value:
+                Repository.timer.value.cancel()
             self.destroy()
 
         self.protocol("WM_DELETE_WINDOW", on_close)
