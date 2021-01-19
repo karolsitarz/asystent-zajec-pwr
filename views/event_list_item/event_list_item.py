@@ -7,6 +7,7 @@ from views.event_list_item.event_list_item_adapter import EventListItemAdapter
 class EventListItem(Frame):
     def __init__(self, parent, event: Event, is_before: bool, on_click, **kw):
         super().__init__(parent, **kw)
+        self.__parent = parent
         self.adapter = EventListItemAdapter(event)
         fg, bg = ("gray", "lightgray") if is_before else (None, "white")
 
@@ -35,9 +36,13 @@ class EventListItem(Frame):
         self.__label.bind("<Enter>", on_enter)
         self.__label.bind("<Leave>", on_leave)
 
-    def setup_observers(self):
-        def action(header_string):
-            self.__header["text"] = header_string
-            self.update()
+    def update_time(self, time):
+        self.__header["text"] = time
+        self.update()
 
-        self.adapter.time_string.observe(action)
+    def setup_observers(self):
+        self.adapter.time_string.observe(self.update_time)
+
+    def destroy(self):
+        self.adapter.time_string.unobserve(self.update_time)
+        super().destroy()

@@ -45,6 +45,7 @@ def save_data():
 
 
 def clear_data():
+    Repository.timer.value.cancel()
     if not os.path.exists(DATA_PATH):
         return
 

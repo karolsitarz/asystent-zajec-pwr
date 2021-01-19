@@ -10,7 +10,7 @@ from util.constants import url_pattern
 from util.constants import ViewName
 
 
-class EducationDataAdapter:
+class EducationDataFormAdapter:
     def __init__(self):
         self.errors: Observable[list[str]] = Observable([])
         self.selected = Repository.selected_education_data

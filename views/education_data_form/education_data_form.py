@@ -6,14 +6,14 @@ from model.data.course import Course
 from model.data.education_data import EducationData
 from model.data.event import Event
 from util.constants import ViewName
-from views.education_data_form.education_data_adapter import EducationDataAdapter
+from views.education_data_form.education_data_form_adapter import EducationDataFormAdapter
 from views.frame_view import FrameView
 
 
 class EducationDataFormView(FrameView):
     def __init__(self, root: Tk):
         super().__init__(root, ViewName.EDUCATION_DATA_FORM)
-        self.adapter = EducationDataAdapter()
+        self.adapter = EducationDataFormAdapter()
 
         # START create layout
         parent = Frame(self)

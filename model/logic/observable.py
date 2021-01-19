@@ -11,6 +11,9 @@ class Observable(Generic[T]):
     def observe(self, callback: Callable[[T], None]):
         self.__observers.add(callback)
 
+    def unobserve(self, callback: Callable[[T], None]):
+        self.__observers.remove(callback)
+
     @property
     def value(self):
         return self.__value

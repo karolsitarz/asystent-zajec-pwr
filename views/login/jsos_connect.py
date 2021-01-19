@@ -93,7 +93,7 @@ def jsos_login(status, username: str, password: str):
         elif line.startswith(ICAL_END):
             end = DatetimeEpoch.from_ical(line[len(ICAL_END):])
         elif line.startswith(ICAL_LOCATION):
-            location = line[len(ICAL_LOCATION):]
+            location = line[len(ICAL_LOCATION):].replace("\,", ",")
         elif line.startswith(ICAL_SUMMARY):
             description = line[len(ICAL_SUMMARY):]
             course_type = description[0]
